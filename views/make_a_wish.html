@@ -1,33 +1,39 @@
 {% extends "views/base.html" %}
 {% block body %}
-<form method ="post" role="form">
-  <div class="form-group">
-    <label for="name">Name</label>
-    <input type="text" class="form-control" id="name" placeholder="Name">
-  </div>
-  <div class="form-group">
-    <label for="details">Details</label>
-    <input type="text" class="form-control" id="details" placeholder="How to complete the task.">
-  </div>
-  <div class="form-group">
-    <label for="request">Type of Request</label>
-          <select name="type_of_request">
-          <option name="type_of_request" value="food">food</option>
-          <option name="type_of_request" value="animal">animal</option>
-          <option name="type_of_request" value="chore">chore</option>
-          <option name="type_of_request" value="other">other</option>
-        </select>
-  </div>
-  <div class="form-group">
-    <div class="checkbox">
-      <label>
-        Location Dependent?
-        <input type="checkbox" name="location_dependent" id="checkbox1"> 
+<div id="make_a_wish">
+  <form method ="post" role="form">
+    <div class="form-group">
+      <label for="name">Name
+      <input type="text" class="form-control" id="name" placeholder="Name">
+    </label>
+    </div>
+    <div class="form-group">
+      <label for="details">Details
+      <textarea type="text" class="form-control" id="details" placeholder="How to complete the task."></textarea>
+    </label>
+    </div>
+    <div class="form-group">
+      <label for="request">Type of Request
+            <select name="type_of_request">
+            <option name="type_of_request" value="food">food</option>
+            <option name="type_of_request" value="animal">animal</option>
+            <option name="type_of_request" value="chore">chore</option>
+            <option name="type_of_request" value="other">other</option>
+          </select>
       </label>
     </div>
-    <label>Location (only necessary if dependent)</label>
-    <input type="text" class="form-control" name="location" placeholder="Berkely"/>
-  </div>
-  <button type="submit" class="btn btn-default">Submit</button>
-</form>
+    <div class="form-group">
+      <div class="checkbox">
+        <label>
+          Location Dependent?
+          <input type="checkbox" name="location_dependent" id="checkbox1"> 
+        </label>
+      </div>
+      <label>Location (only necessary if dependent)
+      <input type="text" class="form-control" name="location" placeholder="Berkeley"/>
+    </label>
+    </div>
+    <button type="submit" class="btn btn-default">Submit</button>
+  </form>
+</div>
 {% endblock %}
