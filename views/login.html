@@ -1,15 +1,5 @@
 {% extends "views/base.html" %}
 {% block body %}
-<<<<<<< HEAD
-<div class="container">
-  <form class="form-signin" role="form" method="post">
-    <h2 class="form-signin-heading">Please sign in</h2>
-    <input name="username" type="text" class="form-control" placeholder="Username"  required autofocus>
-    <input  name="phonenumber" type="text" class="form-control" placeholder="Phone number" required>
-    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-  </form>
-</div> <!-- /container -->
-=======
 <center><div id="sign-in">
 	<form class="form-signin" role="form" method="post">
 	    <input name="username" type="text" class="form-control" placeholder="Username"  required autofocus><br>
@@ -17,7 +7,13 @@
 	    {{ "ACCESS DENIED" if denied }} <br>
 	    <button class="btn btn-lg btn-primary" type="submit">Sign in</button>
 	</form>
-</div></center>
->>>>>>> 590b5ebd2b160115ca7aee331513e37c0c4d78cb
+</div>
+<style>
+	#sign-in {
+		text-align: center;
+		position: relative;
+		top: 200px;
+	}
+</style>
 {% endblock %}
 
