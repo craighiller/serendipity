@@ -1,3 +1,7 @@
 h1 {
 	font-family: 'lobster';
 }
+
+form {
+	margin-left: 50px;
+}
