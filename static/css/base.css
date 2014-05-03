@@ -1,3 +1,11 @@
+body {
+	background-color: rgba(131, 139, 131, 0.2);
+}
+
+header a:hover{
+	text-decoration: none;
+}
+
 h1 {
 	font-family: 'lobster';
 	color: black;
@@ -14,9 +22,9 @@ h1 {
 
 #options {
 	float: left;
-	background-color: black;
 	height: 100px;
 	width: 75%;
+	background-color: black;
 }
 
 ul {
@@ -45,4 +53,9 @@ li a:hover {
 
 #profile a {
 	color: yellow;
+}
+
+#make_a_wish {
+	padding-left: 5%;
+	padding-top: 10%;
 }

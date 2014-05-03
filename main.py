@@ -55,13 +55,13 @@ class BaseHandler(webapp2.RequestHandler):
 
 class MainHandler(BaseHandler):
     def get(self):
-        template_values = {}
+        template_values = {'session':self.session}
         template = jinja_environment.get_template("views/home.html")
         self.response.out.write(template.render(template_values))
 
 class WishHandler(BaseHandler):
     def get(self):
-        template_values = {}
+        template_values = {'session':self.session}
         template = jinja_environment.get_template("views/make_a_wish.html")
         self.response.out.write(template.render(template_values))
 
@@ -75,7 +75,7 @@ class WishHandler(BaseHandler):
             status="requested"
         )
         wish.put()
-        template_values = {}
+        template_values = {'session':self.session}
         template = jinja_environment.get_template("views/make_a_wish_post.html")
         self.response.out.write(template.render(template_values))
 
@@ -86,6 +86,7 @@ class WishIndexHandler(BaseHandler):
         if not search:
             search = 'requested'
         template_values['wishes'] = Wish.gql("WHERE status = :1", search)
+        template_values = {'session':self.session}
         template = jinja_environment.get_template("views/fulfill_a_wish.html")
         self.response.out.write(template.render(template_values))
 
@@ -94,14 +95,24 @@ class WishIndexHandler(BaseHandler):
         wish = Wish.get(self.request.get("key"))
         wish.status = 'in progress'
         wish.put()
+        template_values = {'session':self.session}
         template = jinja_environment.get_template("views/fulfill_a_wish_post.html")
         self.response.out.write(template.render(template_values))
         
 class LoginHandler(BaseHandler):
     def get(self):
+        template = jinja_environment.get_template("views/login.html")
+        template_values = {"denied": False, 'session':self.session}
+        
+        self.response.out.write(template.render(template_values))
+        
+    def post(self):
         username = self.request.get("username")
+        print username
         num = texter.num_parse(self.request.get("phonenumber"))
         cur_user = User.get_by_key_name(username)
+        template = jinja_environment.get_template("views/login.html")
+        
         if cur_user == None:
             cur_user = User.get_or_insert(username, name=username, phone_number = num)
         if cur_user.phone_number == num:
@@ -109,17 +120,22 @@ class LoginHandler(BaseHandler):
             self.session['user_name'] = username
             self.session['num'] = num
             self.session['authenticated'] = True
-            self.response.out.write("hello world")
+            self.redirect('/')
             
         else:
             self.session['authenticated'] = False
-            self.response.out.write("NOT AUTHENTICATED")
+            template_values = {"denied": True, 'session':self.session}
+            self.response.out.write(template.render(template_values))
         
-            
+class LogoutHandler(BaseHandler):
+    def get(self):
+        self.session['authenticated'] = False
+        self.redirect('/')
         
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
     ('/make_a_wish', WishHandler),
     ('/fulfill_a_wish', WishIndexHandler),
-    ('/login', LoginHandler)
+    ('/login', LoginHandler),
+    ('/logout', LogoutHandler)
 ], debug=True, config=config)
