@@ -28,7 +28,7 @@ jinja_environment = jinja2.Environment(
 class MainHandler(webapp2.RequestHandler):
     def get(self):
         template_values = {}
-        template = jinja_environment.get_template("home.html")
+        template = jinja_environment.get_template("views/home.html")
         self.response.out.write(template.render(template_values))
 
 class WishHandler(webapp2.RequestHandler):
