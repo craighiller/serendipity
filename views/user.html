@@ -1,5 +1,32 @@
 {% extends "views/base.html" %}
 {% block body %}
-  <h3>Name: {{user.name}}</h3>
-  <h3>Phone: {{user.phone_number}}</h3>
+  <h2>Name: {{user.name}}</h2>
+  <h2>Phone: {{user.phone_number}}</h2>
+  <table>
+    <tr>
+      <th>Name</th>
+      <th>Details</th> 
+      <th>Type of Request</th>
+      <th>Location Dependent?</th> 
+      <th>Location</th>
+      <th>Status</th>
+      <th>Action</th>
+    </tr>
+    {% for wish in wishes %}
+      <tr>
+        <td>{{wish.name}}</td>
+        <td>{{wish.details}}</td>
+        <td>{{wish.type_of_request}}</td>
+        <td>{{wish.location_dependent}}</td>
+        <td>{{wish.location}}</td>
+        <td>{{wish.status}}</td>
+        <form method="post">
+          <input name="key" type="hidden" value="{{wish.key()}}" />
+          {% if wish.status == 'requested' %}
+            <td><button class='btn btn-success'>Fulfill This Wish</td>
+          {% endif %}
+        </form>
+      </tr>
+    {% endfor %}
+  </table>
 {% endblock %}
