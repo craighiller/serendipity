@@ -1,5 +1,6 @@
 {% extends "views/base.html" %}
 {% block body %}
+<a href="/fulfill_a_wish" class='btn btn-primary'>All</a>
 <a href="/fulfill_a_wish?status=requested" class='btn btn-primary'>Requested</a>
 <a href="/fulfill_a_wish?status=in progress" class='btn btn-primary'>In Progress</a>
 <a href="/fulfill_a_wish?status=completed" class='btn btn-primary'>Completed</a>
@@ -11,6 +12,7 @@
     <th>Type of Request</th>
     <th>Location Dependent?</th> 
     <th>Location</th>
+    <th>Status</th>
     <th>Action</th>
   </tr>
   {% for wish in wishes %}
@@ -20,6 +22,7 @@
       <td>{{wish.type_of_request}}</td>
       <td>{{wish.location_dependent}}</td>
       <td>{{wish.location}}</td>
+      <td>{{wish.status}}</td>
       <form method="post">
         <input name="key" type="hidden" value="{{wish.key()}}" />
         <td><button class='btn btn-success'>Fulfill This Wish</td>
