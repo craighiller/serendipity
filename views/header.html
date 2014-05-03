@@ -9,14 +9,15 @@
 		<div id="profile">
 			{% if 'authenticated' in session %}
 				{% if session['authenticated'] %}
-					<a href="/profile"> {{session['user_name']}} </a>
-					<a href="/logout"> Logout </a></li>
+					<li><a href="/profile"> {{session['user_name']}} </a></li>
+					<li><a href="/logout"> Logout </a></li>
 				{% else %}
-					<a href="/login"> Login </a></li>
+					<li><a href="/login"> Login </a></li>
 				{% endif %}
 			{% else %}
 				<a href="/login"> Login </a></li>
 			{% endif %}	
+		</div>
 		</div>
 	</div>
 </header>
