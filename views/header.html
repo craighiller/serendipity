@@ -6,8 +6,16 @@
 			<li><a href="/fulfill_a_wish"> Fulfill a Wish </a></li>
 		</ul>
 		<div id="profile">
-			<a href="/login"> Login </a></li>
-			<a href="/logout"> Logout </a></li>
+			{% if 'authenticated' in session %}
+				{% if session['authenticated'] %}
+					<a href="/profile"> {{session['user_name']}} </a>
+					<a href="/logout"> Logout </a></li>
+				{% else %}
+					<a href="/login"> Login </a></li>
+				{% endif %}
+			{% else %}
+				<a href="/login"> Login </a></li>
+			{% endif %}	
 		</div>
 	</div>
 </header>
