@@ -57,5 +57,5 @@ class WishIndexHandler(webapp2.RequestHandler):
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
     ('/make_a_wish', WishHandler),
-    ('/fulfill_a_wish'), WishIndexHandler)
+    ('/fulfill_a_wish', WishIndexHandler)
 ], debug=True)
