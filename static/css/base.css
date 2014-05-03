@@ -1,3 +1,48 @@
 h1 {
 	font-family: 'lobster';
+	color: black;
+	font-size: 520%;
+	padding: 3%;
+}
+
+#icon {
+	width: 25%;
+	background-color: rgba(255, 240, 100, 1);
+	float: left;
+	height: 100px;
+}
+
+#options {
+	float: left;
+	background-color: black;
+	height: 100px;
+	width: 75%;
+}
+
+ul {
+	list-style: none;
+	margin-top: 3.5%;
+}
+
+li {
+	display: inline;
+	margin-right: 2%;
+}
+
+li a {
+	font-family: 'Dosis';
+	color: yellow;
+	font-size: 200%;
+}
+
+li a:hover {
+	color: yellow;
+}
+
+#profile {
+	text-align: right;
+}
+
+#profile a {
+	color: yellow;
 }
