@@ -31,19 +31,19 @@ class MainHandler(webapp2.RequestHandler):
         template = jinja_environment.get_template("home.html")
         self.response.out.write(template.render(template_values))
 
-class MakeRequestHandler(webapp2.RequestHandler):
+class WishHandler(webapp2.RequestHandler):
     def get(self):
         template_values = {}
-        template = jinja_environment.get_template("views/make_request.html")
+        template = jinja_environment.get_template("views/make_a_wish.html")
         self.response.out.write(template.render(template_values))
 
     def post(self):
         template_values = {}
-        template = jinja_environment.get_template("views/smake_request_post.html")
+        template = jinja_environment.get_template("views/make_a_wish_post.html")
         self.response.out.write(template.render(template_values))
 
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
-    ('/make_request', MakeRequestHandler)
+    ('/make_a_wish', WishHandler)
 ], debug=True)
