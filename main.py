@@ -18,6 +18,8 @@ import webapp2
 import jinja2
 import os
 import logging
+import texter
+
 from wish_model import Wish
 
 from google.appengine.ext import db
