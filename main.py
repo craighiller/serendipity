@@ -74,19 +74,18 @@ class WishHandler(BaseHandler):
             location=self.request.get("location"),
             status="requested"
         )
-        print wish.put()
+        wish.put()
         template_values = {'session':self.session}
         template = jinja_environment.get_template("views/make_a_wish_post.html")
         self.response.out.write(template.render(template_values))
 
 class WishIndexHandler(BaseHandler):
     def get(self):
-        template_values = {}
         search = self.request.get("status")
         if not search:
             search = 'requested'
         template_values = {'session':self.session}
-        template_values['wishes'] = Wish.all()
+        template_values['wishes'] = Wish.gql("WHERE status = :1", search)
         template = jinja_environment.get_template("views/fulfill_a_wish.html")
         self.response.out.write(template.render(template_values))
 
