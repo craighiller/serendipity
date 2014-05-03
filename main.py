@@ -107,17 +107,17 @@ class LoginHandler(BaseHandler):
         
     def post(self):
         username = self.request.get("username")
-        print username
-        num = texter.num_parse(self.request.get("phonenumber"))
+        password = self.request.get("password")
         cur_user = User.get_by_key_name(username)
         template = jinja_environment.get_template("views/login.html")
         
         if cur_user == None:
-            cur_user = User.get_or_insert(username, name=username, phone_number = num)
-        if cur_user.phone_number == num:
+            template_values = {"denied": True, 'session':self.session}
+            self.response.out.write(template.render(template_values))
+            return
+        if cur_user.password == password:
             # terrible authentication hacks, sorry Wagner
             self.session['user_name'] = username
-            self.session['num'] = num
             self.session['authenticated'] = True
             self.redirect('/')
             
@@ -125,7 +125,31 @@ class LoginHandler(BaseHandler):
             self.session['authenticated'] = False
             template_values = {"denied": True, 'session':self.session}
             self.response.out.write(template.render(template_values))
-        
+
+class SignupHandler(BaseHandler):
+    def get(self):
+        template = jinja_environment.get_template("views/signup.html")
+        template_values = {"denied": False, 'session':self.session}
+
+        self.response.out.write(template.render(template_values))
+
+    def post(self):
+        username = self.request.get("username")
+        password = self.request.get("password")
+        num = texter.num_parse(self.request.get("phonenumber"))
+        cur_user = User.get_by_key_name(username)
+        template = jinja_environment.get_template("views/login.html")
+        if cur_user:
+            template_values = {"flash": "Sorry, username already exists.", 'session':self.session}
+            self.response.out.write(template.render(template_values))
+            return
+        cur_user = User.get_or_insert(username, name=username, phone_number = num, password=password)        
+            # no authentication hacks, sorry Wagner
+        self.session['user_name'] = username
+        self.session['authenticated'] = True
+        self.redirect('/')
+
+                    
 class LogoutHandler(BaseHandler):
     def get(self):
         self.session['authenticated'] = False
@@ -143,6 +167,8 @@ app = webapp2.WSGIApplication([
     ('/make_a_wish', WishHandler),
     ('/fulfill_a_wish', WishIndexHandler),
     ('/login', LoginHandler),
+    ('/signup', SignupHandler),
+    
     ('/logout', LogoutHandler),
     ('/goodbyeFriends', goodbyeHandler)
 ], debug=True, config=config)
