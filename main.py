@@ -166,6 +166,8 @@ class LogoutHandler(BaseHandler):
 class goodbyeHandler(BaseHandler):
     def get(self):
         for wish in Wish.all():
+            wish.delete()
+        for wish in User.all():
             wish.delete()   
         self.redirect("/")
 
