@@ -1,12 +1,17 @@
 {% extends "views/base.html" %}
 {% block body %}
-  <table>
+<a href="/fulfill_a_wish?status=requested" class='btn btn-primary'>Requested</a>
+<a href="/fulfill_a_wish?status=in progress" class='btn btn-primary'>In Progress</a>
+<a href="/fulfill_a_wish?status=completed" class='btn btn-primary'>Completed</a>
+<a href="/fulfill_a_wish?status=confirmed" class='btn btn-primary'>Confirmed</a>
+<table>
   <tr>
     <th>Name</th>
     <th>Details</th> 
     <th>Type of Request</th>
     <th>Location Dependent?</th> 
     <th>Location</th>
+    <th>Action</th>
   </tr>
   {% for wish in wishes %}
     <tr>
@@ -15,6 +20,11 @@
       <td>{{wish.type_of_request}}</td>
       <td>{{wish.location_dependent}}</td>
       <td>{{wish.location}}</td>
+      <form method="post">
+        <input name="key" type="hidden" value="{{wish.key()}}" />
+        <td><button class='btn btn-success'>Fulfill This Wish</td>
+      </form>
     </tr>
   {% endfor %}
+</table>
 {% endblock %}

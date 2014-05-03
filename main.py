@@ -71,7 +71,8 @@ class WishHandler(BaseHandler):
             details=self.request.get("details"), 
             type_of_request=self.request.get("type_of_request"),
             location_dependent=(True if self.request.get("location_dependent") else False),
-            location=self.request.get("location")
+            location=self.request.get("location"),
+            status="requested"
         )
         wish.put()
         template_values = {}
@@ -81,12 +82,18 @@ class WishHandler(BaseHandler):
 class WishIndexHandler(BaseHandler):
     def get(self):
         template_values = {}
-        template_values['wishes'] = Wish.all()
+        search = self.request.get("status")
+        if not search:
+            search = 'requested'
+        template_values['wishes'] = Wish.gql("WHERE status = :1", search)
         template = jinja_environment.get_template("views/fulfill_a_wish.html")
         self.response.out.write(template.render(template_values))
 
     def post(self):
         template_values = {}
+        wish = Wish.get(self.request.get("key"))
+        wish.status = 'in progress'
+        wish.put()
         template = jinja_environment.get_template("views/fulfill_a_wish_post.html")
         self.response.out.write(template.render(template_values))
         
