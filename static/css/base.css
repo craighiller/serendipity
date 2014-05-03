@@ -54,7 +54,7 @@ li a:hover {
 #options {
 	margin-top: 3.5%;
 	display: inline-block;
-	width: 90%;
+	width: 70%;
 }
 
 #profile {
@@ -64,6 +64,8 @@ li a:hover {
 
 #profile a {
 	color: rgba(255, 204, 0, 1);
+	font-size: 200%;
+	margin-left: 50px;
 }
 
 #profile a:hover {
