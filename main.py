@@ -91,7 +91,6 @@ class WishIndexHandler(BaseHandler):
         self.response.out.write(template.render(template_values))
 
     def post(self):
-        template_values = {}
         wish = Wish.get(self.request.get("key"))
         wish.status = 'in progress'
         wish.put()
@@ -131,11 +130,19 @@ class LogoutHandler(BaseHandler):
     def get(self):
         self.session['authenticated'] = False
         self.redirect('/')
+
+class goodbyeHandler(BaseHandler):
+    def get(self):
+        for wish in Wish.all():
+            wish.delete()   
+        self.redirect("/")
+
         
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
     ('/make_a_wish', WishHandler),
     ('/fulfill_a_wish', WishIndexHandler),
     ('/login', LoginHandler),
-    ('/logout', LogoutHandler)
+    ('/logout', LogoutHandler),
+    ('/goodbyeFriends', goodbyeHandler)
 ], debug=True, config=config)
