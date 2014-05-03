@@ -10,3 +10,5 @@ class Wish(db.Model):
     location_dependent = db.BooleanProperty()
     location = db.StringProperty()
     status = db.StringProperty()  # can be 'requested', 'in progress', 'completed', 'confirmed'
+    user_key = db.StringProperty()
+
