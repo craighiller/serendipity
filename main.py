@@ -42,8 +42,20 @@ class WishHandler(webapp2.RequestHandler):
         template = jinja_environment.get_template("views/make_a_wish_post.html")
         self.response.out.write(template.render(template_values))
 
+class WishIndexHandler(webapp2.RequestHandler):
+    def get(self):
+        template_values = {}
+        template = jinja_environment.get_template("views/fulfill_a_wish.html")
+        self.response.out.write(template.render(template_values))
+
+    def post(self):
+        template_values = {}
+        template = jinja_environment.get_template("views/fulfill_a_wish_post.html")
+        self.response.out.write(template.render(template_values))
+
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
-    ('/make_a_wish', WishHandler)
+    ('/make_a_wish', WishHandler),
+    ('/fulfill_a_wish'), WishIndexHandler)
 ], debug=True)
