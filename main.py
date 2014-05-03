@@ -123,6 +123,7 @@ class LoginHandler(BaseHandler):
     def post(self):
         username = self.request.get("username")
         password = self.request.get("password")
+        print password
         cur_user = User.get_by_key_name(username)
         template = jinja_environment.get_template("views/login.html")
         
@@ -151,9 +152,10 @@ class SignupHandler(BaseHandler):
     def post(self):
         username = self.request.get("username")
         password = self.request.get("password")
+        print password
         num = texter.num_parse(self.request.get("phonenumber"))
         cur_user = User.get_by_key_name(username)
-        template = jinja_environment.get_template("views/login.html")
+        template = jinja_environment.get_template("views/signup.html")
         if cur_user:
             template_values = {"flash": "Sorry, username already exists.", 'session':self.session}
             self.response.out.write(template.render(template_values))
