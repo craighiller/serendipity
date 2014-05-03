@@ -1,10 +1,12 @@
 <header>
 	<div id="icon"><a href="/"><h1>Serendipity</h1></div></a>
-		<div id="options">
+		<div id="options-wrapper">
 			<ul>
-				<li><a href="/make_a_wish"> Make a Wish </a></li>
-				<li><a href="/fulfill_a_wish"> Fulfill a Wish </a></li>
-				<li><a href="/users"> Users </a></li>
+				<div id="options">
+					<li><a href="/make_a_wish"> Make a Wish </a></li>
+					<li><a href="/fulfill_a_wish"> Fulfill a Wish </a></li>
+					<li><a href="/users"> Users </a></li>
+				</div>
 				<div id="profile">
 					{% if 'authenticated' in session %}
 						{% if session['authenticated'] %}
