@@ -1,0 +1,20 @@
+{% extends "views/base.html" %}
+{% block body %}
+  <table>
+  <tr>
+    <th>Name</th>
+    <th>Details</th> 
+    <th>Type of Request</th>
+    <th>Location Dependent?</th> 
+    <th>Location</th>
+  </tr>
+  {% for wish in wishes %}
+    <tr>
+      <td>{{wish.name}}</td>
+      <td>{{wish.details}}</td>
+      <td>{{wish.type_of_request}}</td>
+      <td>{{wish.location_dependent}}</td>
+      <td>{{wish.location}}</td>
+    </tr>
+  {% endfor %}
+{% endblock %}

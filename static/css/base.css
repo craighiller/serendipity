@@ -1,5 +1,6 @@
 h1 {
 	font-family: 'lobster';
+<<<<<<< HEAD
 	color: black;
 	font-size: 520%;
 	padding: 3%;
@@ -45,4 +46,10 @@ li a:hover {
 
 #profile a {
 	color: yellow;
+=======
+}
+
+form {
+	margin-left: 50px;
+>>>>>>> d66152b6cd9c4cc8d5fc1c5e839d516ff11efc41
 }
