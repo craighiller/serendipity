@@ -102,7 +102,7 @@ class WishIndexHandler(BaseHandler):
 class UserHandler(BaseHandler):
     def get(self):
         template_values = {'session':self.session}
-        template_values['user'] = User.get(self.request.get("id"))
+        template_values['user'] = User.gql("WHERE name = :1", self.request.get('id')).fetch(1)[0] # shady, get the user w/ username
         template = jinja_environment.get_template("views/user.html")
         self.response.out.write(template.render(template_values))
 

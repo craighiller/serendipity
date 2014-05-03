@@ -7,7 +7,7 @@
   </tr>
   {% for user in users %}
     <tr>
-      <td><a href="/user?id={{user.key()}}">{{user.name}}</a></td>
+      <td><a href="/user?id={{user.name}}">{{user.name}}</a></td>
       <td>{{user.phone_number}}</td>
     </tr>
   {% endfor %}
