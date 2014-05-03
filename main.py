@@ -71,7 +71,8 @@ class WishHandler(BaseHandler):
             details=self.request.get("details"), 
             type_of_request=self.request.get("type_of_request"),
             location_dependent=(True if self.request.get("location_dependent") else False),
-            location=self.request.get("location")
+            location=self.request.get("location"),
+            status="requested"
         )
         wish.put()
         template_values = {'session':self.session}
@@ -81,11 +82,18 @@ class WishHandler(BaseHandler):
 class WishIndexHandler(BaseHandler):
     def get(self):
         template_values = {'session':self.session}
-        template_values['wishes'] = Wish.all()
+        search = self.request.get("status")
+        if not search:
+            template_values['wishes'] = Wish.all()
+        else:
+            template_values['wishes'] = Wish.gql("WHERE status = :1", search)
         template = jinja_environment.get_template("views/fulfill_a_wish.html")
         self.response.out.write(template.render(template_values))
 
     def post(self):
+        wish = Wish.get(self.request.get("key"))
+        wish.status = 'in progress'
+        wish.put()
         template_values = {'session':self.session}
         template = jinja_environment.get_template("views/fulfill_a_wish_post.html")
         self.response.out.write(template.render(template_values))
@@ -122,11 +130,19 @@ class LogoutHandler(BaseHandler):
     def get(self):
         self.session['authenticated'] = False
         self.redirect('/')
+
+class goodbyeHandler(BaseHandler):
+    def get(self):
+        for wish in Wish.all():
+            wish.delete()   
+        self.redirect("/")
+
         
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
     ('/make_a_wish', WishHandler),
     ('/fulfill_a_wish', WishIndexHandler),
     ('/login', LoginHandler),
-    ('/logout', LogoutHandler)
+    ('/logout', LogoutHandler),
+    ('/goodbyeFriends', goodbyeHandler)
 ], debug=True, config=config)
