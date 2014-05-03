@@ -127,6 +127,6 @@ app = webapp2.WSGIApplication([
     ('/', MainHandler),
     ('/make_a_wish', WishHandler),
     ('/fulfill_a_wish', WishIndexHandler),
-    ('/login', LoginHandler).
+    ('/login', LoginHandler),
     ('/logout', LogoutHandler)
 ], debug=True, config=config)
