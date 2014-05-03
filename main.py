@@ -40,6 +40,14 @@ class WishHandler(webapp2.RequestHandler):
         self.response.out.write(template.render(template_values))
 
     def post(self):
+        wish = Wish(
+            name=self.request.get("name"), 
+            details=self.request.get("details"), 
+            type_of_request=self.request.get("type_of_request"),
+            location_dependent=False,
+            location=self.request.get("location")
+        )
+        wish.put()
         template_values = {}
         template = jinja_environment.get_template("views/make_a_wish_post.html")
         self.response.out.write(template.render(template_values))
