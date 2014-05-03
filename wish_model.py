@@ -1,6 +1,6 @@
 from google.appengine.ext import db, ndb
 
-class User(db.Model):
+class Wish(db.Model):
     id = db.StringProperty(required=True)
     created = db.DateTimeProperty(auto_now_add=True)
     updated = db.DateTimeProperty(auto_now=True)
