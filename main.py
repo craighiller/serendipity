@@ -81,6 +81,9 @@ class WishHandler(BaseHandler):
 class WishIndexHandler(BaseHandler):
     def get(self):
         template_values = {}
+        template_values['wishes'] = Wish.all()
+        for wish in Wish.all():
+            print wish
         template = jinja_environment.get_template("views/fulfill_a_wish.html")
         self.response.out.write(template.render(template_values))
 
