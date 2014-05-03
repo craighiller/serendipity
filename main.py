@@ -72,7 +72,8 @@ class WishHandler(BaseHandler):
             type_of_request=self.request.get("type_of_request"),
             location_dependent=(True if self.request.get("location_dependent") else False),
             location=self.request.get("location"),
-            status="requested"
+            status="requested",
+            user_key=self.session['user_name']
         )
         wish.put()
         template_values = {'session':self.session}
@@ -98,10 +99,16 @@ class WishIndexHandler(BaseHandler):
         template = jinja_environment.get_template("views/fulfill_a_wish_post.html")
         self.response.out.write(template.render(template_values))
 
+class UserHandler(BaseHandler):
+    def get(self):
+        template_values = {'session':self.session}
+        template_values['user'] = User.get(self.request.get("id"))
+        template = jinja_environment.get_template("views/user.html")
+        self.response.out.write(template.render(template_values))
+
 class UserIndexHandler(BaseHandler):
     def get(self):
         template_values = {'session':self.session}
-        search = self.request.get("status")
         template_values['users'] = User.all()
         template = jinja_environment.get_template("views/users.html")
         self.response.out.write(template.render(template_values))
@@ -116,6 +123,7 @@ class LoginHandler(BaseHandler):
     def post(self):
         username = self.request.get("username")
         password = self.request.get("password")
+        print password
         cur_user = User.get_by_key_name(username)
         template = jinja_environment.get_template("views/login.html")
         
@@ -144,9 +152,10 @@ class SignupHandler(BaseHandler):
     def post(self):
         username = self.request.get("username")
         password = self.request.get("password")
+        print password
         num = texter.num_parse(self.request.get("phonenumber"))
         cur_user = User.get_by_key_name(username)
-        template = jinja_environment.get_template("views/login.html")
+        template = jinja_environment.get_template("views/signup.html")
         if cur_user:
             template_values = {"flash": "Sorry, username already exists.", 'session':self.session}
             self.response.out.write(template.render(template_values))
@@ -178,8 +187,8 @@ app = webapp2.WSGIApplication([
     ('/fulfill_a_wish', WishIndexHandler),
     ('/login', LoginHandler),
     ('/signup', SignupHandler),
-    
     ('/logout', LogoutHandler),
     ('/users', UserIndexHandler),
+    ('/user', UserHandler),
     ('/goodbyeFriends', goodbyeHandler)
 ], debug=True, config=config)
