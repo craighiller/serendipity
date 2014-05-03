@@ -1,6 +1,8 @@
 <!-- Login -->
 {% extends "views/base.html" %}
 {% block body %}
+{{ "ACCESS DENIED" if denied }}
+
 <div class="container">
   <form class="form-signin" role="form" method="post">
     <h2 class="form-signin-heading">Please sign in</h2>

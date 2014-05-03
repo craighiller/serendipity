@@ -93,7 +93,9 @@ class WishIndexHandler(BaseHandler):
 class LoginHandler(BaseHandler):
     def get(self):
         template = jinja_environment.get_template("views/login.html")
-        self.response.out.write(template.render())
+        template_values = {"denied": False}
+        
+        self.response.out.write(template.render(template_values))
         
     def post(self):
         username = self.request.get("username")
@@ -109,11 +111,12 @@ class LoginHandler(BaseHandler):
             self.session['user_name'] = username
             self.session['num'] = num
             self.session['authenticated'] = True
-            self.response.out.write("swag")
+            self.redirect('/')
             
         else:
             self.session['authenticated'] = False
-            self.response.out.write("NOT AUTHENTICATED")
+            template_values = {"denied": True}
+            self.response.out.write(template.render(template_values))
         
             
         
