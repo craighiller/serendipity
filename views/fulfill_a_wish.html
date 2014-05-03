@@ -3,10 +3,10 @@
 <a href="/fulfill_a_wish" class='btn btn-primary'>All</a>
 <a href="/fulfill_a_wish?status=requested" class='btn btn-primary'>Requested</a>
 <a href="/fulfill_a_wish?status=in progress" class='btn btn-primary'>In Progress</a>
-<a href="/fulfill_a_wish?status=completed" class='btn btn-primary'>Completed</a>
 <a href="/fulfill_a_wish?status=confirmed" class='btn btn-primary'>Confirmed</a>
 <table>
   <tr>
+    <th>User</th>
     <th>Name</th>
     <th>Details</th> 
     <th>Type of Request</th>
@@ -17,6 +17,7 @@
   </tr>
   {% for wish in wishes %}
     <tr>
+      <td><a href="/user?id={{wish.user_key}}">{{wish.user_key}}</a></td>
       <td>{{wish.name}}</td>
       <td>{{wish.details}}</td>
       <td>{{wish.type_of_request}}</td>
