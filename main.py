@@ -103,6 +103,8 @@ class UserHandler(BaseHandler):
     def get(self):
         template_values = {'session':self.session}
         template_values['user'] = User.gql("WHERE name = :1", self.request.get('id')).fetch(1)[0] # shady, get the user w/ username
+        template_values['wishes'] = Wish.gql("WHERE user_key = :1", self.request.get('id'))
+        print template_values['wishes']
         template = jinja_environment.get_template("views/user.html")
         self.response.out.write(template.render(template_values))
 
