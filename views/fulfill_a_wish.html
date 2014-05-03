@@ -25,7 +25,9 @@
       <td>{{wish.status}}</td>
       <form method="post">
         <input name="key" type="hidden" value="{{wish.key()}}" />
-        <td><button class='btn btn-success'>Fulfill This Wish</td>
+        {% if wish.status == 'requested' %}
+          <td><button class='btn btn-success'>Fulfill This Wish</td>
+        {% endif %}
       </form>
     </tr>
   {% endfor %}
