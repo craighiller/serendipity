@@ -70,7 +70,7 @@ class WishHandler(BaseHandler):
             name=self.request.get("name"), 
             details=self.request.get("details"), 
             type_of_request=self.request.get("type_of_request"),
-            location_dependent=False,
+            location_dependent=(True if self.request.get("location_dependent") else False),
             location=self.request.get("location")
         )
         wish.put()
