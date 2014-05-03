@@ -1,6 +1,9 @@
 {% extends "views/base.html" %}
 {% block body %}
 <center><div id="sign-in">
+	<img src="static/star.png" height="300" width="300">
+	<br>
+	<br>
 	<form class="form-signin" role="form" method="post">
 	    <input name="username" type="text" class="form-control" placeholder="Username"  required autofocus><br>
 	    <input  name="phonenumber" type="text" class="form-control" placeholder="Phone number" required><br>
@@ -12,7 +15,7 @@
 	#sign-in {
 		text-align: center;
 		position: relative;
-		top: 200px;
+		top: 30px;
 	}
 </style>
 {% endblock %}
