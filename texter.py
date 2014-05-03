@@ -2,7 +2,7 @@ import twillio_keys
 import string
 
 from twilio.rest import TwilioRestClient 
-client = TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN) 
+client = TwilioRestClient(twillio_keys.ACCOUNT_SID, twillio_keys.AUTH_TOKEN) 
 
 def num_parse(s):
     return "".join([c for c in s if c in string.digits])[-10:]
