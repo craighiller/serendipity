@@ -55,13 +55,13 @@ class BaseHandler(webapp2.RequestHandler):
 
 class MainHandler(BaseHandler):
     def get(self):
-        template_values = {}
+        template_values = {'session':self.session}
         template = jinja_environment.get_template("views/home.html")
         self.response.out.write(template.render(template_values))
 
 class WishHandler(BaseHandler):
     def get(self):
-        template_values = {}
+        template_values = {'session':self.session}
         template = jinja_environment.get_template("views/make_a_wish.html")
         self.response.out.write(template.render(template_values))
 
@@ -74,26 +74,26 @@ class WishHandler(BaseHandler):
             location=self.request.get("location")
         )
         wish.put()
-        template_values = {}
+        template_values = {'session':self.session}
         template = jinja_environment.get_template("views/make_a_wish_post.html")
         self.response.out.write(template.render(template_values))
 
 class WishIndexHandler(BaseHandler):
     def get(self):
-        template_values = {}
+        template_values = {'session':self.session}
         template_values['wishes'] = Wish.all()
         template = jinja_environment.get_template("views/fulfill_a_wish.html")
         self.response.out.write(template.render(template_values))
 
     def post(self):
-        template_values = {}
+        template_values = {'session':self.session}
         template = jinja_environment.get_template("views/fulfill_a_wish_post.html")
         self.response.out.write(template.render(template_values))
         
 class LoginHandler(BaseHandler):
     def get(self):
         template = jinja_environment.get_template("views/login.html")
-        template_values = {"denied": False}
+        template_values = {"denied": False, 'session':self.session}
         
         self.response.out.write(template.render(template_values))
         
@@ -115,7 +115,7 @@ class LoginHandler(BaseHandler):
             
         else:
             self.session['authenticated'] = False
-            template_values = {"denied": True}
+            template_values = {"denied": True, 'session':self.session}
             self.response.out.write(template.render(template_values))
         
 class LogoutHandler(BaseHandler):
