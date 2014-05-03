@@ -34,6 +34,7 @@ h2 {
 ul {
 	list-style: none;
 	margin: 3.5%;
+	color: yellow;
 }
 
 li {
@@ -43,19 +44,26 @@ li {
 
 li a {
 	font-family: 'Dosis';
-	color: rgba(255, 204, 0, 1);;
+	color: yellow;
 	font-size: 200%;
 }
 
 li a:hover {
-	color: yellow;
+	color: rgba(255, 204, 0, 1);
 }
 
 #profile {
 	text-align: right;
-	color: yellow;
 	display: inline-block;
 	margin-left: 50%;
+}
+
+#profile a {
+	color: rgba(255, 204, 0, 1);
+}
+
+#profile a:hover {
+	color:yellow;
 }
 
 #make_a_wish {
