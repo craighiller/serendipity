@@ -94,9 +94,16 @@ class WishIndexHandler(BaseHandler):
         
 class LoginHandler(BaseHandler):
     def get(self):
+        template = jinja_environment.get_template("views/login.html")
+        self.response.out.write(template.render())
+        
+    def post(self):
         username = self.request.get("username")
+        print username
         num = texter.num_parse(self.request.get("phonenumber"))
         cur_user = User.get_by_key_name(username)
+        template = jinja_environment.get_template("views/login.html")
+        
         if cur_user == None:
             cur_user = User.get_or_insert(username, name=username, phone_number = num)
         if cur_user.phone_number == num:
@@ -104,7 +111,7 @@ class LoginHandler(BaseHandler):
             self.session['user_name'] = username
             self.session['num'] = num
             self.session['authenticated'] = True
-            self.response.out.write("hello world")
+            self.response.out.write("swag")
             
         else:
             self.session['authenticated'] = False
