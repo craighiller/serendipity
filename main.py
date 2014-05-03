@@ -134,6 +134,7 @@ class LoginHandler(BaseHandler):
         if cur_user.password == password:
             # terrible authentication hacks, sorry Wagner
             self.session['user_name'] = username
+            self.session['num'] = cur_user.phone_number
             self.session['authenticated'] = True
             self.redirect('/')
             
@@ -163,6 +164,7 @@ class SignupHandler(BaseHandler):
         cur_user = User.get_or_insert(username, name=username, phone_number = num, password=password)        
             # no authentication hacks, sorry Wagner
         self.session['user_name'] = username
+        self.session['num'] = num
         self.session['authenticated'] = True
         self.redirect('/')
 
@@ -171,6 +173,12 @@ class LogoutHandler(BaseHandler):
     def get(self):
         self.session['authenticated'] = False
         self.redirect('/')
+
+class ProfileHandler(BaseHandler):
+    def get(self):
+        template_values = {'session':self.session}
+        template = jinja_environment.get_template("views/profile.html")
+        self.response.out.write(template.render(template_values))
 
 class goodbyeHandler(BaseHandler):
     def get(self):
@@ -190,5 +198,7 @@ app = webapp2.WSGIApplication([
     ('/logout', LogoutHandler),
     ('/users', UserIndexHandler),
     ('/user', UserHandler),
+    ('/profile', ProfileHandler),
+    
     ('/goodbyeFriends', goodbyeHandler)
 ], debug=True, config=config)
