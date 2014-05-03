@@ -9,6 +9,7 @@ class Wish(db.Model):
     type_of_request = db.StringProperty()
     location_dependent = db.BooleanProperty()
     location = db.StringProperty()
-    status = db.StringProperty()  # can be 'requested', 'in progress', 'completed', 'confirmed'
+    status = db.StringProperty()  # can be 'requested', 'in progress', 'confirmed'
     user_key = db.StringProperty()
+    user_fulfiller_key = db.StringProperty()
 
