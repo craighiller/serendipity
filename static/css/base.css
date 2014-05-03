@@ -44,7 +44,7 @@ li {
 
 li a {
 	font-family: 'Dosis';
-	color: yellow;
+	color: rgba(255, 204, 0, 1);;
 	font-size: 200%;
 }
 
@@ -55,6 +55,8 @@ li a:hover {
 #profile {
 	text-align: right;
 	color: yellow;
+	position: relative;
+	top: -25px;
 }
 
 #make_a_wish {
