@@ -23,7 +23,7 @@ from wish_model import Wish
 from google.appengine.ext import db
 
 jinja_environment = jinja2.Environment(
-	loader=jinja2.FileSystemLoader(os.path.dirname(__file__)))
+    loader=jinja2.FileSystemLoader(os.path.dirname(__file__)))
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
@@ -31,6 +31,19 @@ class MainHandler(webapp2.RequestHandler):
         template = jinja_environment.get_template("home.html")
         self.response.out.write(template.render(template_values))
 
+class MakeRequestHandler(webapp2.RequestHandler):
+    def get(self):
+        template_values = {}
+        template = jinja_environment.get_template("views/make_request.html")
+        self.response.out.write(template.render(template_values))
+
+    def post(self):
+        template_values = {}
+        template = jinja_environment.get_template("views/smake_request_post.html")
+        self.response.out.write(template.render(template_values))
+
+
 app = webapp2.WSGIApplication([
-    ('/', MainHandler)
+    ('/', MainHandler),
+    ('/make_request', MakeRequestHandler)
 ], debug=True)
