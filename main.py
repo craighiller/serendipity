@@ -20,20 +20,46 @@ import os
 import logging
 import texter
 
+from webapp2_extras import sessions
+
+
 from wish_model import Wish
+from user_model import User
 
 from google.appengine.ext import db
 
 jinja_environment = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)))
+config = {}
+config['webapp2_extras.sessions'] = {
+    'secret_key': 'my-super-secret-key',
+}
 
-class MainHandler(webapp2.RequestHandler):
+class BaseHandler(webapp2.RequestHandler):
+    def dispatch(self):
+        # Get a session store for this request.
+        self.session_store = sessions.get_store(request=self.request)
+
+        try:
+            # Dispatch the request.
+            webapp2.RequestHandler.dispatch(self)
+        finally:
+            # Save all sessions.
+            self.session_store.save_sessions(self.response)
+
+    @webapp2.cached_property
+    def session(self):
+        # Returns a session using the default cookie key.
+        return self.session_store.get_session()
+
+
+class MainHandler(BaseHandler):
     def get(self):
         template_values = {}
         template = jinja_environment.get_template("views/home.html")
         self.response.out.write(template.render(template_values))
 
-class WishHandler(webapp2.RequestHandler):
+class WishHandler(BaseHandler):
     def get(self):
         template_values = {}
         template = jinja_environment.get_template("views/make_a_wish.html")
@@ -52,7 +78,7 @@ class WishHandler(webapp2.RequestHandler):
         template = jinja_environment.get_template("views/make_a_wish_post.html")
         self.response.out.write(template.render(template_values))
 
-class WishIndexHandler(webapp2.RequestHandler):
+class WishIndexHandler(BaseHandler):
     def get(self):
         template_values = {}
         template = jinja_environment.get_template("views/fulfill_a_wish.html")
@@ -62,10 +88,30 @@ class WishIndexHandler(webapp2.RequestHandler):
         template_values = {}
         template = jinja_environment.get_template("views/fulfill_a_wish_post.html")
         self.response.out.write(template.render(template_values))
-
-
+        
+class LoginHandler(BaseHandler):
+    def get(self):
+        username = self.request.get("username")
+        num = texter.num_parse(self.request.get("phonenumber"))
+        cur_user = User.get_by_key_name(username)
+        if cur_user == None:
+            cur_user = User.get_or_insert(username, name=username, phone_number = num)
+        if cur_user.phone_number == num:
+            # terrible authentication hacks, sorry Wagner
+            self.session['user_name'] = username
+            self.session['num'] = num
+            self.session['authenticated'] = True
+            self.response.out.write("hello world")
+            
+        else:
+            self.session['authenticated'] = False
+            self.response.out.write("NOT AUTHENTICATED")
+        
+            
+        
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
     ('/make_a_wish', WishHandler),
-    ('/fulfill_a_wish', WishIndexHandler)
-], debug=True)
+    ('/fulfill_a_wish', WishIndexHandler),
+    ('/login', LoginHandler)
+], debug=True, config=config)
