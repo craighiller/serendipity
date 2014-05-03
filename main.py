@@ -70,7 +70,7 @@ class WishHandler(BaseHandler):
             name=self.request.get("name"), 
             details=self.request.get("details"), 
             type_of_request=self.request.get("type_of_request"),
-            location_dependent=False,
+            location_dependent=(True if self.request.get("location_dependent") else False),
             location=self.request.get("location")
         )
         wish.put()
@@ -82,8 +82,6 @@ class WishIndexHandler(BaseHandler):
     def get(self):
         template_values = {}
         template_values['wishes'] = Wish.all()
-        for wish in Wish.all():
-            print wish
         template = jinja_environment.get_template("views/fulfill_a_wish.html")
         self.response.out.write(template.render(template_values))
 
