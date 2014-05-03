@@ -97,6 +97,14 @@ class WishIndexHandler(BaseHandler):
         template_values = {'session':self.session}
         template = jinja_environment.get_template("views/fulfill_a_wish_post.html")
         self.response.out.write(template.render(template_values))
+
+class UserIndexHandler(BaseHandler):
+    def get(self):
+        template_values = {'session':self.session}
+        search = self.request.get("status")
+        template_values['users'] = User.all()
+        template = jinja_environment.get_template("views/users.html")
+        self.response.out.write(template.render(template_values))
         
 class LoginHandler(BaseHandler):
     def get(self):
