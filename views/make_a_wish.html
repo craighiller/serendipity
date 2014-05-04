@@ -1,37 +1,37 @@
 {% extends "views/base.html" %}
 {% block body %}
+<style>
+  #make_a_wish {
+    text-align: center;
+  }
+</style>
 <div id="make_a_wish">
+  <h2> Submit a Wish! </h2>
   <form method ="post" role="form">
-    <div class="form-group">
-      <label for="name">Name
-      <input name="name" type="text" class="form-control" id="name" placeholder="Name">
-    </label>
-    </div>
-    <div class="form-group">
-      <label for="details">Details
-      <textarea name="details" type="text" class="form-control" id="details" placeholder="How to complete the task."></textarea>
-    </label>
-    </div>
     <div class="form-group">
       <label for="request">Type of Request
             <select name="type_of_request">
-            <option name="type_of_request" value="food">food</option>
-            <option name="type_of_request" value="animal">animal</option>
-            <option name="type_of_request" value="chore">chore</option>
-            <option name="type_of_request" value="other">other</option>
+              <option name="type_of_request" value="food">food</option>
+              <option name="type_of_request" value="animal">animal</option>
+              <option name="type_of_request" value="chore">chore</option>
+              <option name="type_of_request" value="other">other</option>
           </select>
       </label>
     </div>
     <div class="form-group">
-      <div class="checkbox">
-        <label>
-          Location Dependent?
-          <input name="location_dependent" type="checkbox" name="location_dependent" id="checkbox1"> 
-        </label>
-      </div>
-      <label>Location (only necessary if dependent)
-      <input name="location" type="text" class="form-control" placeholder="Berkeley"/>
+      <label for="tagline">Tagline
+      <input name="tagline" type="text" class="form-control" id="tagline" placeholder="One-line summary of request">
     </label>
+    </div>
+    <div class="form-group">
+      <label for="details">Details
+      <textarea name="details" type="text" class="form-control" id="details" placeholder="How to complete the task"></textarea>
+    </label>
+    </div>
+    <div class="form-group">
+        <label>Location (if necessary)
+          <input name="location" type="text" class="form-control" placeholder="Ex. Berkeley"/>
+        </label>
     </div>
     <button type="submit" class="btn btn-default">Submit</button>
   </form>
