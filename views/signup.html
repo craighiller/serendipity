@@ -2,7 +2,7 @@
 {% extends "views/base.html" %}
 {% block body %}
 <h2> Create your profile </h2>
-<div id="sign-up">
+<div class="form-wrapper">
     <img src="static/signup_star.png" height="300" width="300"><br>
     <form class="form-signup" role="form" method="post">
         <label for="username">
@@ -20,18 +20,5 @@
         <button class="btn btn-lg btn-primary" type="submit">Sign Up</button>
     </form>
 </div>
-<style>
-    #sign-up {
-        padding-left: 39%;
-    }
-
-    button {
-        margin-left: 11%;
-    }
-
-    form {
-        text-align: left;
-    }
-</style>
 {% endblock %}
 

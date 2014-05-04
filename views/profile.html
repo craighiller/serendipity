@@ -1,6 +1,6 @@
 {% extends "views/base.html" %}
 {% block body %}
-<div id="edit-profile-wrapper">
+<div class="form-wrapper">
 	<form class="edit-profile" role="form" method="post">
 		<h2> Edit your profile: </h2>
 	    Phone Number: <input  name="phonenumber" type="text" class="form-control" value="{{session['num']}}" required><br>
