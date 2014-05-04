@@ -2,32 +2,19 @@
 {% block body %}
 <link rel="stylesheet" href="static/css/home.css">
 <h2> Wishes Granted Recently</h2>
-	{% for wish in recent_wishes %}
-		<div class="panel panel-default granted">
-	      	<div class="panel-body">
-	      		<img src="static/{{wish.type_of_request}}.jpg">
+<div class="body-wrapper">
+	<ul id="recent-wishes">
+		{% for wish in recent_wishes %}
+			<li class="recent-wish">
+				<a href="wish?key={{wish.key()}}"><img src="static/{{wish.type_of_request.replace(' ', '')}}.jpg" /></a>
 		      	<p>
-		      		Request: <a href="wish?key={{wish.key()}}">{{wish.tagline}}</a> <br />
+		      		Request: <a href="wish?key={{wish.key()}}">{{wish.tagline}}</a><br />
 		      		Wisher: <a href="user?id={{wish.user_key}}">{{wish.user_key}}</a> <br />
 			        Fulfiller: <a href="user?id={{wish.user_fulfiller_key}}">{{wish.user_fulfiller_key}}</a> <br />
-			        Donation: {{wish.cache_money}}<br />
-			     </p>
-		   </div>
-	 	</div>
-   	{% endfor %}
-	<style>
-		h2 {
-			text-align: center;
-		}
-		img {
-			width: 100px;
-		}
-		.granted {
-			margin: 6% 3%;
-			padding-left: 16px;
-			float: left;
-			display: inline;
-			text-align: center;
-		}
-	</style>
+			        Donation: ${{wish.cache_money}}<br />
+			    </p>
+			</li>
+   		{% endfor %}
+   	</ul>
+</div>
 {% endblock %}
