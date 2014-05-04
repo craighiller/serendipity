@@ -15,7 +15,7 @@
       <th>Fulfiller</th>
       <th>Action</th>
     </tr>
-    {% for wish in wishes %}
+    {% for wish in unfulfilled_wishes %}
       <tr>
         <td>{{wish.time}}</td>
         <td>{{wish.type_of_request}}</td>
@@ -58,7 +58,7 @@
       <th>Fulfiller</th>
       <th>Action</th>
     </tr>
-    {% for wish in wishes %}
+    {% for wish in fulfilled_wishes %}
       <tr>
         <td>{{wish.time}}</td>
         <td>{{wish.type_of_request}}</td>
@@ -101,7 +101,7 @@
       <th>Fulfiller</th>
       <th>Action</th>
     </tr>
-    {% for wish in wishes %}
+    {% for wish in wishes_to_complete %}
       <tr>
         <td>{{wish.time}}</td>
         <td>{{wish.type_of_request}}</td>
@@ -144,7 +144,7 @@
       <th>Fulfiller</th>
       <th>Action</th>
     </tr>
-    {% for wish in wishes %}
+    {% for wish in wishes_fulfilled_by_you %}
       <tr>
         <td>{{wish.time}}</td>
         <td>{{wish.type_of_request}}</td>
