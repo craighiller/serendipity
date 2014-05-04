@@ -12,6 +12,11 @@ indexes:
 
 - kind: Wish
   properties:
+  - name: status
+  - name: updated
+
+- kind: Wish
+  properties:
   - name: user_fulfiller_key
   - name: status
 

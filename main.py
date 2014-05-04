@@ -61,6 +61,9 @@ class BaseHandler(webapp2.RequestHandler):
 class MainHandler(BaseHandler):
     def get(self):
         template_values = {'session':self.session}
+        template_values['recent_wishes'] = Wish.gql("WHERE status = 'fulfilled' ORDER BY updated").fetch(8)
+        for wish in template_values['recent_wishes']:
+            print wish.key()
         template = jinja_environment.get_template("views/home.html")
         self.response.out.write(template.render(template_values))
 
