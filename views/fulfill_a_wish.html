@@ -16,15 +16,15 @@
 <h2> Find a wish to fulfill! </h2> 
 <table class="table table-striped">
   <tr>
-    <th>Requester</th>
-    <th>Type of Request</th> 
-    <th>Tagline</th>
-    <th>$ Reward</th>
-    <th>Details</th> 
-    <th>Time of Request</th>
-    <th>Location</th>
-    <th>Status</th>
-    <th>Fulfiller</th>
+    <th id='requester'>Requester</th>
+    <th id='type'>Type of Request</th> 
+    <th id='tag'>Tagline</th>
+    <th id='reward'>$ Reward</th>
+    <th id='details'>Details</th> 
+    <th id='time'>Time of Request</th>
+    <th id='location'>Location</th>
+    <th id='status'>Status</th>
+    <th id='fulfiller'>Fulfiller</th>
     <th>Action</th>
   </tr>
   {% for wish in wishes %}
@@ -43,10 +43,14 @@
         <td></td>
       {% endif %}
       {% if wish.status == 'requested' %}
-        <form method="post">
-          <input name="key" type="hidden" value="{{wish.key()}}" />
-          <td><button class='btn btn-success'>Fulfill This Wish</td>
-        </form>
+        {% if wish.user_key != session['user_name'] %}
+          <form method="post">
+            <input name="key" type="hidden" value="{{wish.key()}}" />
+            <td><button class='btn btn-success'>Fulfill This Wish</td>
+          </form>
+        {% else %}
+          <td></td>
+        {% endif %}
       {% elif wish.status == 'in progress' and wish.user_key == session['user_name'] %}
         <form method="post">
           <input name="confirm" type="hidden" value="yes" />
@@ -65,4 +69,6 @@
     </tr>
   {% endfor %}
 </table>
+
 {% endblock %}
+

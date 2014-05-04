@@ -29,6 +29,10 @@ h3 {
 	margin-left: 3%;
 }
 
+.form-wrapper {
+	text-align: center;
+}
+
 ul {
 	list-style: none;
 	color: yellow;

@@ -1,16 +1,15 @@
 {% extends "views/base.html" %}
 {% block body %}
-<center>
-<div id="make_a_wish">
+<div class="form-wrapper">
   <h2> What do you want to wish for? </h2>
   <form method ="post" role="form">
     <div class="form-group">
       <label for="request">Type of Request
-            <select name="type_of_request">
-              {% for t in ["food", "animal", "chores", "material things", "other"] %}
-                <option name="type_of_request" value="{{t}}">{{t}}</option>
-              {% endfor %}
-          </select>
+        <select name="type_of_request">
+          {% for t in ["food", "animal", "chores", "material things", "other"] %}
+            <option name="type_of_request" value="{{t}}">{{t}}</option>
+          {% endfor %}
+        </select>
       </label>
     </div>
     <div class="form-group">
@@ -24,17 +23,17 @@
     </label>
     </div>
     <div class="form-group">
-        <label>Location (if necessary)
-          <input name="location" type="text" class="form-control" placeholder="Ex. Berkeley"/>
-        </label>
+      <label>Location (if necessary)
+        <input name="location" type="text" class="form-control" placeholder="Ex. Berkeley"/>
+      </label>
     </div>
     <div class="form-group">
-        <label>Reward (donation amount)
-          <input name="cache_money" type="text" class="form-control" placeholder="5.10"/>
-        </label>
+      <label> *Reward (optional) $
+        <input name="cache_money" type="text" class="form-control" placeholder="Ex. 5"/>
+      </label>
     </div>
     <button type="submit" class="btn btn-default">Submit</button>
   </form>
+  <p>*We will donate your reward to a charity of your choice!</p>
 </div>
-</center>
 {% endblock %}

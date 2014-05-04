@@ -61,6 +61,9 @@ class BaseHandler(webapp2.RequestHandler):
 class MainHandler(BaseHandler):
     def get(self):
         template_values = {'session':self.session}
+        template_values['recent_wishes'] = Wish.gql("WHERE status = 'fulfilled' ORDER BY updated").fetch(8)
+        for wish in template_values['recent_wishes']:
+            print wish.key()
         template = jinja_environment.get_template("views/home.html")
         self.response.out.write(template.render(template_values))
 
@@ -95,7 +98,7 @@ class MakeAWishHandler(BaseHandler):
             cache_money=float(money)
         )
         wish.put()
-        self.redirect('/wish?key=' + str(wish.key()) + '&flash=You made a wish!')
+        self.redirect('/user?id=' + str(wish.user_key) + '&flash=You made a wish!')
 
 class WishIndexHandler(BaseHandler):
     def get(self):
@@ -147,6 +150,7 @@ class UserHandler(BaseHandler):
         template_values['fulfilled'] = Wish.gql("WHERE user_key = :1 AND status = 'fulfilled'", self.request.get('id'))
         template_values['to_complete'] = Wish.gql("WHERE user_fulfiller_key = :1 AND status != 'fulfilled'", self.request.get('id'))
         template_values['completed'] = Wish.gql("WHERE user_fulfiller_key = :1 AND status = 'fulfilled'", self.request.get('id'))
+        template_values['flash'] = self.request.get('flash')
         template = jinja_environment.get_template("views/user.html")
         self.response.out.write(template.render(template_values))
 
@@ -204,6 +208,7 @@ class SignupHandler(BaseHandler):
         template = jinja_environment.get_template("views/signup.html")
         if cur_user:
             template_values = {'session':self.session}
+            template_values['flash'] = 'Oops that username is taken!'
             self.response.out.write(template.render(template_values))
             return
         cur_user = User.get_or_insert(username, name=username, phone_number = num, password=password, text_opt_in = opt_in)        

@@ -1,6 +1,6 @@
 #filter {
 	float: right;
-	width: 15%;
+	width: 14%;
 	background-color: white;
 	padding-left: 2%;
 }
@@ -12,4 +12,5 @@
 .table {
 	width: 80%;
 	margin-top: 1%;
+	margin-left: 3%;
 }
