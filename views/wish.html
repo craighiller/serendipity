@@ -1,5 +1,10 @@
 {% extends "views/base.html" %}
 {% block body %}
+  {% if flash %}
+    <div class="alert alert-notice">
+      <div style="margin-top: 100px;">{{flash}}</div>
+    </div>
+  {% endif %}
   <table class="table table-striped">
     <tr>
       <th>Requester</th>
@@ -26,18 +31,18 @@
         <td></td>
       {% endif %}
       {% if wish.status == 'requested' %}
-        <form method="post">
+        <form method="post" action="/fulfill_a_wish">
           <input name="key" type="hidden" value="{{wish.key()}}" />
           <td><button class='btn btn-success'>Fulfill This Wish</td>
         </form>
       {% elif wish.status == 'in progress' and wish.user_key == session['user_name'] %}
-        <form method="post">
+        <form method="post" action="/fulfill_a_wish">
           <input name="confirm" type="hidden" value="yes" />
           <input name="key" type="hidden" value="{{wish.key()}}" />
           <td><button name=cancel class='btn btn-warning'>Mark As Fulfilled</td>
         </form>
       {% elif wish.status == 'in progress' and wish.user_fulfiller_key == session['user_name'] %}
-        <form method="post">
+        <form method="post" action="/fulfill_a_wish">
           <input name="delete" type="hidden" value="yes" />
           <input name="key" type="hidden" value="{{wish.key()}}" />
           <td><button name=cancel class='btn btn-danger'>Cancel This Wish</td>
