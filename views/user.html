@@ -5,7 +5,7 @@
 
 {% for t in range(4) %}
   <div class="wishes" id={{['unfulfilled', 'fulfilled', 'to_complete', 'completed'][t]}}>
-    <h3> Wishes fulfilled by you </h3>
+    <h3> Wishes {{['Unfulfilled', 'Fulfilled', 'To Complete', 'Completed by You'][t]}} </h3>
     <table class="table table-striped">
       <tr>
         <th>Time of Request</th>
@@ -15,7 +15,7 @@
       </tr>
       {% for wish in [unfulfilled, fulfilled, to_complete, completed][t] %}
         <tr>
-          <td>{{wish.time}}</td>
+          <td>{{wish.time()}}</td>
           <td>{{wish.type_of_request}}</td>
           <td>{{wish.tagline}}</td>
           <td>{{wish.status.capitalize()}}</td>

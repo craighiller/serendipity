@@ -32,7 +32,7 @@
       <td>{{wish.type_of_request}}</td>
       <td>{{wish.tagline}}</td>
       <td>{{wish.details}}</td>
-      <td>{{wish.created.strftime('%b %d, %Y')}}</td>
+      <td>{{wish.time()}}</td>
       <td>{{wish.location}}</td>
       <td>{{wish.status.capitalize()}}</td>
       {% if wish.status != 'requested' %}

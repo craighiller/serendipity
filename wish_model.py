@@ -13,3 +13,6 @@ class Wish(db.Model):
     user_key = db.StringProperty()
     user_fulfiller_key = db.StringProperty()
 
+    def time(self):
+        return self.created.strftime('%b %d, %Y')
+
