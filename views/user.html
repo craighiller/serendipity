@@ -13,7 +13,7 @@
       </tr>
       {% for wish in [unfulfilled, fulfilled, to_complete, completed][t] %}
         <tr>
-          <td>{{wish.tagline}}</td>
+          <td><a href="/wish?key={{wish.key()}}">{{wish.tagline}}</a></td>
           <td>{{wish.status.capitalize()}}</td>
         </tr>
       {% endfor %}
