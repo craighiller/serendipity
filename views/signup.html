@@ -1,12 +1,21 @@
 {% extends "views/base.html" %}
 {% block body %}
-<div id="sign-in">
-    <form class="form-signin" role="form" method="post">
+<h2> Create your profile </h2>
+<div id="sign-up">
+    <form class="form-signup" role="form" method="post">
         <img src="static/star.png" height="300" width="300"><br>
-        <input name="username" type="text" class="form-control" placeholder="Username"  required autofocus><br>
-        <input  name="phonenumber" type="text" class="form-control" placeholder="Phone Number" required><br>
-        
-        <input  name="password" type="password" class="form-control" placeholder="Password" required><br>
+        <label for="username">
+            Username <input name="username" type="text" class="form-control" placeholder="Username"  required autofocus>
+        </label>
+        <label for="phonenumber">
+            Phone Number <input  name="phonenumber" type="text" class="form-control" placeholder="Phone Number" required>
+        </label>
+        <label for="password">
+            Password <input  name="password" type="password" class="form-control" placeholder="Password" required><br>
+        </label>
+        <label for="receive_text">
+            Receive daily text with wishes? <input name="receive_text" type="checkbox" checked>
+        </label>
         <button class="btn btn-lg btn-primary" type="submit">Sign Up</button>
     </form>
 </div>
@@ -15,8 +24,12 @@
         margin: 3%;
     }
 
-    #sign-in {
-        text-align: center;
+    #sign-up {
+        padding-left: 40%;
+    }
+
+    form {
+        text-align: left;
     }
 </style>
 {% endblock %}

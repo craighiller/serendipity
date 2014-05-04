@@ -3,7 +3,7 @@
 <div id="sign-in">
     {% if denied %}
       <div class="alert alert-danger">
-        <div style="margin-top: 100px;">{{ "Oops, please sign in" }}</div>
+        {{ "Oops, please sign in!" }}
       </div>
     {% endif %}
     <form class="form-signin" role="form" method="post">
@@ -22,6 +22,7 @@
     #sign-in {
         text-align: center;
     }
+
 </style>
 {% endblock %}
 
