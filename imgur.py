@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 import json, sys, time as dt, pprint, math
-
+import urllib
 import imgur_config
 
 from Imgur.Factory import Factory
@@ -26,15 +26,19 @@ def two_column_with_period(left, right, length):
 
 
 def upload(image, name):
-    config = imgur_config.config()
-    factory = Factory(config)
+    #config = imgur_config.config()
+    #factory = Factory(config)
+    # 
+    # action = "upload"
+    # 
+    # #handle_unauthorized_commands(factory, "upload")
+    # 
+    # imgur = factory.build_api()
+    # 
+    # req = factory.build_request_upload_from_data(image, name)
+    # res = imgur.retrieve(req)
+    # return(res['link'])
 
-    action = "upload"
-
-    #handle_unauthorized_commands(factory, "upload")
-
-    imgur = factory.build_api()
-
-    req = factory.build_request_upload_from_data(image, name)
-    res = imgur.retrieve(req)
-    return(res['link'])
+    data = urllib.urlencode({"image":image, "name":name})
+    u = urllib.urlopen("https://api.imgur.com/3/image", data)
+    return u
