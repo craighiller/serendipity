@@ -14,7 +14,9 @@ h1 {
 }
 
 h2 {
-	margin: 0px;
+	text-align: center;
+	font-family: 'lobster';
+	margin:0px;
 }
 
 ul {
