@@ -23,6 +23,7 @@ import re
 
 from webapp2_extras import sessions
 
+import imgur
 
 from wish_model import Wish
 from user_model import User
@@ -267,7 +268,32 @@ class goodmorningHandler(BaseHandler):
                 for wish in user_wishes:
                     self.response.out.write(wish.details+"<br>")
             
-            
+class picHandler(BaseHandler):
+    def get(self):
+        self.response.out.write("""<html>
+        <body>
+        <form action="pics"
+        enctype="multipart/form-data" method="post">
+        <p>
+        Type some text (if you like):<br>
+        <input type="text" name="textline" size="30">
+        </p>
+        <p>
+        Please specify a file, or a set of files:<br>
+        <input type="file" name="datafile" size="40">
+        </p>
+        <div>
+        <input type="submit" value="Send">
+        </div>
+        </form>
+        </body>
+        </html>""")
+        
+    def post(self):
+        name = self.request.get("textline")
+        img = self.request.get("datafile")
+        self.response.out.write(imgur.upload(img, name))
+        
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
     ('/wish', WishHandler),
@@ -281,5 +307,6 @@ app = webapp2.WSGIApplication([
     ('/profile', ProfileHandler),
     ('/twiml', twimlHandler),
     ('/goodmorning', goodmorningHandler),
-    ('/goodbyeFriends', goodbyeHandler)
+    ('/goodbyeFriends', goodbyeHandler),
+    ('/pics', picHandler )
 ], debug=True, config=config)

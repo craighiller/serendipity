@@ -31,10 +31,10 @@ def upload(image, name):
 
     action = "upload"
 
-    handle_unauthorized_commands(factory, "upload")
+    #handle_unauthorized_commands(factory, "upload")
 
     imgur = factory.build_api()
 
     req = factory.build_request_upload_from_data(image, name)
     res = imgur.retrieve(req)
-    print(res['link'])
+    return(res['link'])
