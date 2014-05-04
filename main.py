@@ -28,6 +28,10 @@ from user_model import User
 
 from google.appengine.ext import db
 
+import twilio.twiml
+
+import random
+
 jinja_environment = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)))
 config = {}
@@ -85,7 +89,7 @@ class MakeAWishHandler(BaseHandler):
             user_key=self.session['user_name']
         )
         wish.put()
-        return self.redirect('/wish?key=' + str(wish.key()) + '&flash=You made a wish!')
+        self.redirect('/wish?key=' + str(wish.key()) + '&flash=You made a wish!')
 
 class WishIndexHandler(BaseHandler):
     def get(self):
@@ -120,7 +124,7 @@ class WishIndexHandler(BaseHandler):
             wish.user_fulfiller_key = None
             flash = 'No longer fulfilling ' + wish.tagline
         elif self.request.get('confirm'):
-            wish.status = 'confirmed'
+            wish.status = 'fulfilled'
             flash = 'Confirmed ' + wish.tagline
         else:
             wish.status = 'in progress'
@@ -128,17 +132,15 @@ class WishIndexHandler(BaseHandler):
             flash = 'Fulfilling ' + wish.tagline
         wish.put()
         return self.redirect('/wish?key=' + str(wish.key()) + '&flash=' + flash)
-        template = jinja_environment.get_template("views/fulfill_a_wish_post.html")
-        self.response.out.write(template.render(template_values))
 
 class UserHandler(BaseHandler):
     def get(self):
         template_values = {'session':self.session}
         template_values['user'] = User.gql("WHERE name = :1", self.request.get('id')).fetch(1)[0] # shady, get the user w/ username
-        template_values['unfulfilled'] = Wish.gql("WHERE user_key = :1 AND status != 'confirmed'", self.request.get('id'))
-        template_values['fulfilled'] = Wish.gql("WHERE user_key = :1 AND status = 'confirmed'", self.request.get('id'))
-        template_values['to_complete'] = Wish.gql("WHERE user_fulfiller_key = :1 AND status != 'confirmed'", self.request.get('id'))
-        template_values['completed'] = Wish.gql("WHERE user_fulfiller_key = :1 AND status = 'confirmed'", self.request.get('id'))
+        template_values['unfulfilled'] = Wish.gql("WHERE user_key = :1 AND status != 'fulfilled'", self.request.get('id'))
+        template_values['fulfilled'] = Wish.gql("WHERE user_key = :1 AND status = 'fulfilled'", self.request.get('id'))
+        template_values['to_complete'] = Wish.gql("WHERE user_fulfiller_key = :1 AND status != 'fulfilled'", self.request.get('id'))
+        template_values['completed'] = Wish.gql("WHERE user_fulfiller_key = :1 AND status = 'fulfilled'", self.request.get('id'))
         template = jinja_environment.get_template("views/user.html")
         self.response.out.write(template.render(template_values))
 
@@ -228,7 +230,6 @@ class goodbyeHandler(BaseHandler):
             wish.delete()   
         self.redirect("/")
 
-import twilio.twiml
 class twimlHandler(BaseHandler):
     # Will work when called in production, sample request is:
     
@@ -245,7 +246,17 @@ class twimlHandler(BaseHandler):
         #resp = twilio.twiml.Response()
         #resp.message("thank you come again")
         #self.response.out.write(str(resp))
-        
+
+class goodmorningHandler(BaseHandler):
+    def get(self):
+        for user in User.all():
+            self.response.out.write("<b>"+user.name+"</b></br>")
+            # Take three random wishes that are not from the user
+            user_wishes = random.sample([wish for wish in Wish.all() if wish.user_key != user.name], 3)
+            for wish in user_wishes:
+                self.response.out.write(wish.details+"<br>")
+            
+            
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
     ('/wish', WishHandler),
@@ -258,5 +269,6 @@ app = webapp2.WSGIApplication([
     ('/user', UserHandler),
     ('/profile', ProfileHandler),
     ('/twiml', twimlHandler),
+    ('/goodmorning', goodmorningHandler),
     ('/goodbyeFriends', goodbyeHandler)
 ], debug=True, config=config)
