@@ -1,6 +1,11 @@
 {% extends "views/base.html" %}
 {% block body %}
 <link rel="stylesheet" href="static/css/user.css">
+{% if flash %}
+  <div class="alert alert-success">
+    <div style="margin-top: 100px;">{{flash}}</div>
+  </div>
+{% endif %}
 <h2 id="name"> {{session['user_name']}}'s Wishes </h2>
 
 {% for t in range(4) %}

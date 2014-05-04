@@ -43,10 +43,14 @@
         <td></td>
       {% endif %}
       {% if wish.status == 'requested' %}
-        <form method="post">
-          <input name="key" type="hidden" value="{{wish.key()}}" />
-          <td><button class='btn btn-success'>Fulfill This Wish</td>
-        </form>
+        {% if wish.user_key != session['user_name'] %}
+          <form method="post">
+            <input name="key" type="hidden" value="{{wish.key()}}" />
+            <td><button class='btn btn-success'>Fulfill This Wish</td>
+          </form>
+        {% else %}
+          <td></td>
+        {% endif %}
       {% elif wish.status == 'in progress' and wish.user_key == session['user_name'] %}
         <form method="post">
           <input name="confirm" type="hidden" value="yes" />

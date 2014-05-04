@@ -95,7 +95,7 @@ class MakeAWishHandler(BaseHandler):
             cache_money=float(money)
         )
         wish.put()
-        self.redirect('/wish?key=' + str(wish.key()) + '&flash=You made a wish!')
+        self.redirect('/user?id=' + str(wish.user_key) + '&flash=You made a wish!')
 
 class WishIndexHandler(BaseHandler):
     def get(self):
@@ -147,6 +147,7 @@ class UserHandler(BaseHandler):
         template_values['fulfilled'] = Wish.gql("WHERE user_key = :1 AND status = 'fulfilled'", self.request.get('id'))
         template_values['to_complete'] = Wish.gql("WHERE user_fulfiller_key = :1 AND status != 'fulfilled'", self.request.get('id'))
         template_values['completed'] = Wish.gql("WHERE user_fulfiller_key = :1 AND status = 'fulfilled'", self.request.get('id'))
+        template_values['flash'] = self.request.get('flash')
         template = jinja_environment.get_template("views/user.html")
         self.response.out.write(template.render(template_values))
 
