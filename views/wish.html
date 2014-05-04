@@ -22,18 +22,18 @@
   </table>
 
   {% if wish.status == 'requested' %}
-        <form method="post">
+        <form method="post" action="/fulfill_a_wish">
           <input name="key" type="hidden" value="{{wish.key()}}" />
           <button class='btn btn-success'>Fulfill This Wish</button>
         </form>
       {% elif wish.status == 'in progress' and wish.user_key == session['user_name'] %}
-        <form method="post">
+        <form method="post" action="/fulfill_a_wish">
           <input name="confirm" type="hidden" value="yes" />
           <input name="key" type="hidden" value="{{wish.key()}}" />
           <button name=cancel class='btn btn-warning'>Mark As Fulfilled</button>
         </form>
       {% elif wish.status == 'in progress' and wish.user_fulfiller_key == session['user_name'] %}
-        <form method="post">
+        <form method="post" action="/fulfill_a_wish">
           <input name="delete" type="hidden" value="yes" />
           <input name="key" type="hidden" value="{{wish.key()}}" />
           <button name=cancel class='btn btn-danger'>Cancel This Wish</button>

@@ -85,7 +85,7 @@ class MakeAWishHandler(BaseHandler):
             user_key=self.session['user_name']
         )
         wish.put()
-        return self.redirect('/wish?key=' + str(wish.key()) + '&flash=You made a wish!')
+        self.redirect('/wish?key=' + str(wish.key()) + '&flash=You made a wish!')
 
 class WishIndexHandler(BaseHandler):
     def get(self):
@@ -128,8 +128,6 @@ class WishIndexHandler(BaseHandler):
             flash = 'Fulfilling ' + wish.tagline
         wish.put()
         return self.redirect('/wish?key=' + str(wish.key()) + '&flash=' + flash)
-        template = jinja_environment.get_template("views/fulfill_a_wish_post.html")
-        self.response.out.write(template.render(template_values))
 
 class UserHandler(BaseHandler):
     def get(self):
