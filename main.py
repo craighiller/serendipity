@@ -67,6 +67,7 @@ class WishHandler(BaseHandler):
     def get(self):
         template_values = {'session':self.session}
         template_values['wish'] = Wish.get(self.request.get("key"))
+        template_values['flash'] = self.request.get('flash')
         template = jinja_environment.get_template("views/wish.html")
         self.response.out.write(template.render(template_values))
 
@@ -88,7 +89,7 @@ class MakeAWishHandler(BaseHandler):
             user_key=self.session['user_name']
         )
         wish.put()
-        return self.redirect('/wish?key=' + str(wish.key()))
+        self.redirect('/wish?key=' + str(wish.key()) + '&flash=You made a wish!')
 
 class WishIndexHandler(BaseHandler):
     def get(self):
@@ -121,17 +122,16 @@ class WishIndexHandler(BaseHandler):
         if self.request.get('delete'):
             wish.status = 'requested'
             wish.user_fulfiller_key = None
-            template_values['flash'] = 'No longer fulfilling ' + wish.tagline
+            flash = 'No longer fulfilling ' + wish.tagline
         elif self.request.get('confirm'):
             wish.status = 'confirmed'
-            template_values['flash'] = 'Confirmed ' + wish.tagline
+            flash = 'Confirmed ' + wish.tagline
         else:
             wish.status = 'in progress'
             wish.user_fulfiller_key = self.session['user_name']
-            template_values['flash'] = 'Fulfilling ' + wish.tagline
+            flash = 'Fulfilling ' + wish.tagline
         wish.put()
-        template = jinja_environment.get_template("views/fulfill_a_wish_post.html")
-        self.response.out.write(template.render(template_values))
+        return self.redirect('/wish?key=' + str(wish.key()) + '&flash=' + flash)
 
 class UserHandler(BaseHandler):
     def get(self):
