@@ -68,6 +68,8 @@ class WishHandler(BaseHandler):
 
 class MakeAWishHandler(BaseHandler):
     def get(self):
+        if not self.session['authenticated']:
+            return self.redirect('/login?redirect=true')
         template_values = {'session':self.session}
         template = jinja_environment.get_template("views/make_a_wish.html")
         self.response.out.write(template.render(template_values))
@@ -82,9 +84,7 @@ class MakeAWishHandler(BaseHandler):
             user_key=self.session['user_name']
         )
         wish.put()
-        template_values = {'session':self.session}
-        template = jinja_environment.get_template("views/make_a_wish_post.html")
-        self.response.out.write(template.render(template_values))
+        return self.redirect('/wish?key=' + str(wish.key()))
 
 class WishIndexHandler(BaseHandler):
     def get(self):
@@ -110,6 +110,8 @@ class WishIndexHandler(BaseHandler):
         self.response.out.write(template.render(template_values))
 
     def post(self):
+        if not self.session['authenticated']:
+            return self.redirect('/login?redirect=true')
         template_values = {'session':self.session}
         wish = Wish.get(self.request.get("key"))
         if self.request.get('delete'):
@@ -149,7 +151,8 @@ class LoginHandler(BaseHandler):
     def get(self):
         template = jinja_environment.get_template("views/login.html")
         template_values = {"denied": False, 'session':self.session}
-        template_values['session']['flash'] = 'Denied'
+        if self.request.get('redirect'):
+            template_values["denied"] = True
         
         self.response.out.write(template.render(template_values))
         
