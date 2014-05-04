@@ -9,18 +9,18 @@
     <input type="radio" name="status" value="in progress" onclick="this.form.submit()" {{"checked='true'" if search == 'in progress'}}>In Progress<br>
     <input type="radio" name="status" value="confirmed" onclick="this.form.submit()" {{"checked='true'" if search == 'confirmed'}}>Confirmed<br>
   <h4>Type</h4>
-    <input type="checkbox" name="type_of_request" value="food" onclick="this.form.submit()" {{"checked='true'" if 'food' in types}}>food<br>
-    <input type="checkbox" name="type_of_request" value="animal" onclick="this.form.submit()" {{"checked='true'" if 'animal' in types}}>animal<br>
-    <input type="checkbox" name="type_of_request" value="chore" onclick="this.form.submit()" {{"checked='true'" if 'chore' in types}}>chore<br>
-    <input type="checkbox" name="type_of_request" value="other" onclick="this.form.submit()" {{"checked='true'" if 'other' in types}}>other<br>
+    {% for t in ["food", "animal", "chores", "material things", "other"] %}
+      <input type="checkbox" name="type_of_request" value={{t}} onclick="this.form.submit()" {{"checked='true'" if t in types}}>{{t.capitalize()}}<br>
+    {% endfor %}
 </form>
-<h2> Find a wish! </h2> 
+<h2> Find a wish to fulfill! </h2> 
 <table class="table table-striped">
   <tr>
     <th>Requester</th>
-    <th>Name</th>
+    <th>Type of Request</th> 
+    <th>Tagline</th>
     <th>Details</th> 
-    <th>Type of Request</th>
+    <th>Time of Request</th>
     <th>Location</th>
     <th>Status</th>
     <th>Fulfiller</th>
@@ -29,9 +29,9 @@
   {% for wish in wishes %}
     <tr>
       <td><a href="/user?id={{wish.user_key}}">{{wish.user_key}}</a></td>
-      <td>{{wish.name}}</td>
-      <td>{{wish.details}}</td>
       <td>{{wish.type_of_request}}</td>
+      <td>{{wish.tagline}}</td>
+      <td>{{wish.details}}</td>
       <td>{{wish.location}}</td>
       <td>{{wish.status.capitalize()}}</td>
       {% if wish.status != 'requested' %}

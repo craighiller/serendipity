@@ -85,7 +85,7 @@ class WishIndexHandler(BaseHandler):
         search = self.request.get("status")
         types = self.request.get_all('type_of_request')
         if not types:
-            types = ['food', 'animal', 'chore', 'other']
+            types = ['food', 'animal', 'chores', 'material things', 'other']
             template_values['types'] = types
         else:
             template_values['types'] = types
@@ -112,7 +112,7 @@ class WishIndexHandler(BaseHandler):
         else:
             wish.status = 'in progress'
             wish.user_fulfiller_key = self.session['user_name']
-            template_values['flash'] = 'Fulfilling ' + wish.name
+            template_values['flash'] = 'Fulfilling ' + wish.tagline
         wish.put()
         template = jinja_environment.get_template("views/fulfill_a_wish_post.html")
         self.response.out.write(template.render(template_values))

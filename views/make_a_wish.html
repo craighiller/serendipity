@@ -1,20 +1,17 @@
 {% extends "views/base.html" %}
 {% block body %}
-<style>
-  #make_a_wish {
-    text-align: center;
-  }
-</style>
+<center>
 <div id="make_a_wish">
-  <h2> Submit a Wish! </h2>
+  <h2> What do you want to wish for? </h2>
   <form method ="post" role="form">
     <div class="form-group">
       <label for="request">Type of Request
             <select name="type_of_request">
-              <option name="type_of_request" value="food">food</option>
-              <option name="type_of_request" value="animal">animal</option>
-              <option name="type_of_request" value="chore">chore</option>
-              <option name="type_of_request" value="other">other</option>
+              <option name="type_of_request" value="food">Food</option>
+              <option name="type_of_request" value="animal">Animal</option>
+              <option name="type_of_request" value="chores">Chores</option>
+              <option name="type_of_request" value="material things">Material things</option>
+              <option name="type_of_request" value="other">Other</option>
           </select>
       </label>
     </div>
@@ -36,4 +33,5 @@
     <button type="submit" class="btn btn-default">Submit</button>
   </form>
 </div>
+</center>
 {% endblock %}
