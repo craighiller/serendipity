@@ -122,10 +122,10 @@ class WishIndexHandler(BaseHandler):
         if self.request.get('delete'):
             wish.status = 'requested'
             wish.user_fulfiller_key = None
-            flash = 'No longer fulfilling ' + wish.tagline
+            flash = 'You are no longer fulfilling ' + wish.tagline
         elif self.request.get('confirm'):
             wish.status = 'fulfilled'
-            flash = 'Confirmed ' + wish.tagline
+            flash = 'Your wish of ' + wish.tagline + ' has been fulfilled!'
         else:
             wish.status = 'in progress'
             wish.user_fulfiller_key = self.session['user_name']

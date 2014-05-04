@@ -43,6 +43,8 @@
   {% endif %}
 
   {% if wish.status == 'fulfilled' %}
-    <button name=cancel class='btn btn-info'>Donation</button>
+    <form>
+      <button name=cancel class='btn btn-success'>Pay it forward by donating!</button>
+    </form>
   {% endif %}
 {% endblock %}
