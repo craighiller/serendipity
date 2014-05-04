@@ -9,9 +9,9 @@
 <h2 id="name"> {{session['user_name']}}'s Wishes </h2>
 {% for t in range(4) %}
   {% if t == 0 %}
-    <h3> Money donated by you: </h3>
+    <h3> Money donated by you: {{user.money_donated}} </h3>
   {% elif t == 2 %}
-    <h3> Money raised by you: </h3>
+    <h3> Money raised by you: {{user.money_raised}}</h3>
   {% endif %}
   <div class="wishes" id={{['unfulfilled', 'fulfilled', 'to_complete', 'completed'][t]}}>
     <table class="table">

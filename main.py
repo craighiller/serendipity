@@ -23,6 +23,7 @@ import re
 
 from webapp2_extras import sessions
 
+import imgur
 
 from wish_model import Wish
 from user_model import User
@@ -132,6 +133,12 @@ class WishIndexHandler(BaseHandler):
             flash = 'You are no longer fulfilling ' + wish.tagline
         elif self.request.get('confirm'):
             wish.status = 'fulfilled'
+            fulfiller =  User.get_by_key_name(wish.user_fulfiller_key)
+            wisher = User.get_by_key_name(wish.user_key)
+            fulfiller.money_raised += wish.cache_money
+            wisher.money_donated += wish.cache_money
+            fulfiller.put()
+            wisher.put()
             flash = 'Your wish of ' + wish.tagline + ' has been fulfilled!'
         else:
             wish.status = 'in progress'
@@ -209,7 +216,7 @@ class SignupHandler(BaseHandler):
             template_values['flash'] = 'Oops that username is taken!'
             self.response.out.write(template.render(template_values))
             return
-        cur_user = User.get_or_insert(username, name=username, phone_number = num, password=password, text_opt_in = opt_in)        
+        cur_user = User.get_or_insert(username, name=username, phone_number = num, password=password, text_opt_in = opt_in, money_donated=0.0, money_raised=0.0)        
             # no authentication hacks, sorry Wagner
         self.session['user_name'] = username
         self.session['num'] = num
@@ -267,7 +274,32 @@ class goodmorningHandler(BaseHandler):
                     self.response.out.write(wish.tagline+"<br>")
                     texter.send_message(user.phone_number, wish.tagline)
             
-            
+class picHandler(BaseHandler):
+    def get(self):
+        self.response.out.write("""<html>
+        <body>
+        <form action="pics"
+        enctype="multipart/form-data" method="post">
+        <p>
+        Type some text (if you like):<br>
+        <input type="text" name="textline" size="30">
+        </p>
+        <p>
+        Please specify a file, or a set of files:<br>
+        <input type="file" name="datafile" size="40">
+        </p>
+        <div>
+        <input type="submit" value="Send">
+        </div>
+        </form>
+        </body>
+        </html>""")
+        
+    def post(self):
+        name = self.request.get("textline")
+        img = self.request.get("datafile")
+        self.response.out.write(imgur.upload(img, name))
+        
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
     ('/wish', WishHandler),
@@ -281,5 +313,6 @@ app = webapp2.WSGIApplication([
     ('/profile', ProfileHandler),
     ('/twiml', twimlHandler),
     ('/goodmorning', goodmorningHandler),
-    ('/goodbyeFriends', goodbyeHandler)
+    ('/goodbyeFriends', goodbyeHandler),
+    ('/pics', picHandler )
 ], debug=True, config=config)
