@@ -19,6 +19,7 @@ import jinja2
 import os
 import logging
 import texter
+import re
 
 from webapp2_extras import sessions
 
@@ -80,6 +81,10 @@ class MakeAWishHandler(BaseHandler):
         self.response.out.write(template.render(template_values))
 
     def post(self):
+        money = 0
+        if self.request.get("cache_money"):
+            money = re.sub('[,$ ]', '', self.request.get("cache_money"))
+
         wish = Wish(
             tagline=self.request.get("tagline"), 
             details=self.request.get("details"), 
@@ -87,7 +92,7 @@ class MakeAWishHandler(BaseHandler):
             location=self.request.get("location"),
             status="requested",
             user_key=self.session['user_name'],
-            cache_money = self.request.get("cache_money")
+            cache_money=float(money)
         )
         wish.put()
         self.redirect('/wish?key=' + str(wish.key()) + '&flash=You made a wish!')
@@ -164,7 +169,6 @@ class LoginHandler(BaseHandler):
     def post(self):
         username = self.request.get("username")
         password = self.request.get("password")
-        print password
         cur_user = User.get_by_key_name(username)
         template = jinja_environment.get_template("views/login.html")
         
@@ -194,7 +198,7 @@ class SignupHandler(BaseHandler):
     def post(self):
         username = self.request.get("username")
         password = self.request.get("password")
-        print password
+        opt_in = self.request.get("receive_text")
         num = texter.num_parse(self.request.get("phonenumber"))
         cur_user = User.get_by_key_name(username)
         template = jinja_environment.get_template("views/signup.html")
@@ -202,7 +206,7 @@ class SignupHandler(BaseHandler):
             template_values = {'session':self.session}
             self.response.out.write(template.render(template_values))
             return
-        cur_user = User.get_or_insert(username, name=username, phone_number = num, password=password)        
+        cur_user = User.get_or_insert(username, name=username, phone_number = num, password=password, text_opt_in = opt_in)        
             # no authentication hacks, sorry Wagner
         self.session['user_name'] = username
         self.session['num'] = num
@@ -251,11 +255,12 @@ class twimlHandler(BaseHandler):
 class goodmorningHandler(BaseHandler):
     def get(self):
         for user in User.all():
-            self.response.out.write("<b>"+user.name+"</b></br>")
-            # Take three random wishes that are not from the user
-            user_wishes = random.sample([wish for wish in Wish.all() if wish.user_key != user.name], 3)
-            for wish in user_wishes:
-                self.response.out.write(wish.details+"<br>")
+            if user.text_opt_in:
+                self.response.out.write("<b>"+user.name+"</b></br>")
+                # Take three random wishes that are not from the user
+                user_wishes = random.sample([wish for wish in Wish.all() if wish.user_key != user.name], 3)
+                for wish in user_wishes:
+                    self.response.out.write(wish.details+"<br>")
             
             
 app = webapp2.WSGIApplication([

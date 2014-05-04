@@ -1,17 +1,18 @@
+
 {% extends "views/base.html" %}
 {% block body %}
 <h2> Create your profile </h2>
 <div id="sign-up">
+    <img src="static/signup_star.png" height="300" width="300"><br>
     <form class="form-signup" role="form" method="post">
-        <img src="static/star.png" height="300" width="300"><br>
         <label for="username">
-            Username <input name="username" type="text" class="form-control" placeholder="Username"  required autofocus>
+            Username <input name="username" type="text" class="form-control" required autofocus>
         </label>
         <label for="phonenumber">
-            Phone Number <input  name="phonenumber" type="text" class="form-control" placeholder="Phone Number" required>
+            Phone Number <input  name="phonenumber" type="text" class="form-control" required>
         </label>
         <label for="password">
-            Password <input  name="password" type="password" class="form-control" placeholder="Password" required><br>
+            Password <input  name="password" type="password" class="form-control" required><br>
         </label>
         <label for="receive_text">
             Receive daily text with wishes? <input name="receive_text" type="checkbox" checked>
@@ -20,12 +21,12 @@
     </form>
 </div>
 <style>
-    img {
-        margin: 3%;
+    #sign-up {
+        padding-left: 39%;
     }
 
-    #sign-up {
-        padding-left: 40%;
+    button {
+        margin-left: 11%;
     }
 
     form {

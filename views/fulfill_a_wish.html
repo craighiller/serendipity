@@ -19,6 +19,7 @@
     <th>Requester</th>
     <th>Type of Request</th> 
     <th>Tagline</th>
+    <th>$ Reward</th>
     <th>Details</th> 
     <th>Time of Request</th>
     <th>Location</th>
@@ -30,7 +31,8 @@
     <tr>
       <td><a href="/user?id={{wish.user_key}}">{{wish.user_key}}</a></td>
       <td>{{wish.type_of_request}}</td>
-      <td>{{wish.tagline}}</td>
+      <td><a href="/wish?key={{wish.key()}}">{{wish.tagline}}</a></td>
+      <td>{{wish.cache_money}}</td>
       <td>{{wish.details}}</td>
       <td>{{wish.time()}}</td>
       <td>{{wish.location}}</td>
