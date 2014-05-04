@@ -83,9 +83,8 @@ class MakeAWishHandler(BaseHandler):
     def post(self):
         money = 0
         if self.request.get("cache_money"):
-            money = float(re.sub('[,$ ]', '', self.request.get("cache_money")))
+            money = re.sub('[,$ ]', '', self.request.get("cache_money"))
 
-        print money
         wish = Wish(
             tagline=self.request.get("tagline"), 
             details=self.request.get("details"), 
@@ -93,7 +92,7 @@ class MakeAWishHandler(BaseHandler):
             location=self.request.get("location"),
             status="requested",
             user_key=self.session['user_name'],
-            cache_money=money
+            cache_money=float(money)
         )
         wish.put()
         self.redirect('/wish?key=' + str(wish.key()) + '&flash=You made a wish!')
