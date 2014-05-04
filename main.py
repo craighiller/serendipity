@@ -84,10 +84,22 @@ class WishIndexHandler(BaseHandler):
     def get(self):
         template_values = {'session':self.session}
         search = self.request.get("status")
-        if not search:
-            template_values['wishes'] = Wish.all()
+        types = self.request.get_all('type_of_request')
+        if not types:
+            types = ['food', 'animal', 'chore', 'other']
+            template_values['types'] = types
         else:
-            template_values['wishes'] = Wish.gql("WHERE status = :1", search)
+            template_values['types'] = types
+
+        if not search:
+            search = 'requested'
+        template_values['search'] = search
+
+        if search == 'all':
+            template_values['wishes'] = Wish.gql("WHERE type_of_request IN :1", types)
+        else:
+            template_values['wishes'] = Wish.gql("WHERE status = :1 and type_of_request IN :2", search, types)
+
         template = jinja_environment.get_template("views/fulfill_a_wish.html")
         self.response.out.write(template.render(template_values))
 
