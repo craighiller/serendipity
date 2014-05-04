@@ -28,6 +28,10 @@ from user_model import User
 
 from google.appengine.ext import db
 
+import twilio.twiml
+
+import random
+
 jinja_environment = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)))
 config = {}
@@ -226,7 +230,6 @@ class goodbyeHandler(BaseHandler):
             wish.delete()   
         self.redirect("/")
 
-import twilio.twiml
 class twimlHandler(BaseHandler):
     # Will work when called in production, sample request is:
     
@@ -243,7 +246,17 @@ class twimlHandler(BaseHandler):
         #resp = twilio.twiml.Response()
         #resp.message("thank you come again")
         #self.response.out.write(str(resp))
-        
+
+class goodmorningHandler(BaseHandler):
+    def get(self):
+        for user in User.all():
+            self.response.out.write("<b>"+user.name+"</b></br>")
+            # Take three random wishes that are not from the user
+            user_wishes = random.sample([wish for wish in Wish.all() if wish.user_key != user.name], 3)
+            for wish in user_wishes:
+                self.response.out.write(wish.details+"<br>")
+            
+            
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
     ('/wish', WishHandler),
@@ -256,5 +269,6 @@ app = webapp2.WSGIApplication([
     ('/user', UserHandler),
     ('/profile', ProfileHandler),
     ('/twiml', twimlHandler),
+    ('/goodmorning', goodmorningHandler),
     ('/goodbyeFriends', goodbyeHandler)
 ], debug=True, config=config)
