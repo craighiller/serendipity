@@ -109,6 +109,9 @@ class WishIndexHandler(BaseHandler):
             wish.status = 'requested'
             wish.user_fulfiller_key = None
             template_values['flash'] = 'No longer fulfilling ' + wish.tagline
+        elif self.request.get('confirm'):
+            wish.status = 'confirmed'
+            template_values['flash'] = 'Confirmed ' + wish.tagline
         else:
             wish.status = 'in progress'
             wish.user_fulfiller_key = self.session['user_name']

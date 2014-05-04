@@ -45,6 +45,12 @@
           <input name="key" type="hidden" value="{{wish.key()}}" />
           <td><button class='btn btn-success'>Fulfill This Wish</td>
         </form>
+      {% elif wish.status == 'in progress' and wish.user_key == session['user_name'] %}
+        <form method="post">
+          <input name="confirm" type="hidden" value="yes" />
+          <input name="key" type="hidden" value="{{wish.key()}}" />
+          <td><button name=cancel class='btn btn-success'>Confirm This Wish</td>
+        </form>
       {% elif wish.status == 'in progress' and wish.user_fulfiller_key == session['user_name'] %}
         <form method="post">
           <input name="delete" type="hidden" value="yes" />
