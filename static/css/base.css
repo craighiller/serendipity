@@ -1,5 +1,11 @@
+body, html {
+	margin:0;
+	padding:0;
+	color:#000;
+}
+
 body {
-	background-color: rgba(131, 139, 131, 0.2);
+	font-family: 'Varela Round';
 }
 
 header a:hover{
@@ -14,7 +20,9 @@ h1 {
 }
 
 h2 {
-	margin: 0px;
+	text-align: center;
+	font-family: 'lobster';
+	margin-top: 0px;
 }
 
 ul {

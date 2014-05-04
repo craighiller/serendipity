@@ -1,32 +1,17 @@
 {% extends "views/base.html" %}
 {% block body %}
-<link rel="stylesheet" href="static/css/fulfill_a_wish.css">
-<form id="filter">
-  <h3>Filter by:</h3>
-  <h4>Status</h4>
-    <input type="radio" name="status" value="all" onclick="this.form.submit()" {{"checked='true'" if search == 'all'}}>All<br>
-    <input type="radio" name="status" value="requested" onclick="this.form.submit()" {{"checked='true'" if search == 'requested'}}>Requested<br>
-    <input type="radio" name="status" value="in progress" onclick="this.form.submit()" {{"checked='true'" if search == 'in progress'}}>In Progress<br>
-    <input type="radio" name="status" value="fulfilled" onclick="this.form.submit()" {{"checked='true'" if search == 'fulfilled'}}>Fulfilled<br>
-  <h4>Type</h4>
-    {% for t in ["food", "animal", "chores", "material things", "other"] %}
-      <input type="checkbox" name="type_of_request" value="{{t}}" onclick="this.form.submit()" {{"checked='true'" if t in types}}>{{t.capitalize()}}<br>
-    {% endfor %}
-</form>
-<h2> Find a wish to fulfill! </h2> 
-<table class="table table-striped">
-  <tr>
-    <th>Requester</th>
-    <th>Type of Request</th> 
-    <th>Tagline</th>
-    <th>Details</th> 
-    <th>Time of Request</th>
-    <th>Location</th>
-    <th>Status</th>
-    <th>Fulfiller</th>
-    <th>Action</th>
-  </tr>
-  {% for wish in wishes %}
+  <table class="table table-striped">
+    <tr>
+      <th>Requester</th>
+      <th>Type of Request</th> 
+      <th>Tagline</th>
+      <th>Details</th> 
+      <th>Time of Request</th>
+      <th>Location</th>
+      <th>Status</th>
+      <th>Fulfiller</th>
+      <th>Action</th>
+    </tr>
     <tr>
       <td><a href="/user?id={{wish.user_key}}">{{wish.user_key}}</a></td>
       <td>{{wish.type_of_request}}</td>
@@ -61,6 +46,5 @@
         <td></td>
       {% endif %}
     </tr>
-  {% endfor %}
-</table>
+  </table>
 {% endblock %}

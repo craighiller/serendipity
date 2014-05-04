@@ -3,11 +3,11 @@
 <div id="sign-in">
 	<form class="form-signin" role="form" method="post">
 		<img src="static/shooting-star.png" height="300" width="300"><br>
+		{{ "ACCESS DENIED" if denied }} <br>
 	    <input name="username" type="text" class="form-control" placeholder="Username"  required autofocus><br>
-	    <input  name="password" type="password" class="form-control" placeholder="Password" required>{{ "ACCESS DENIED" if denied }} <br>
+	    <input  name="password" type="password" class="form-control" placeholder="Password" required><br>
 	    <button class="btn btn-lg btn-primary" type="submit">Sign in</button> <br>
 	    Need an account? <a href="/signup">Sign Up!</a><br>
-
 	</form>
 </div>
 <style>
