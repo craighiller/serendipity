@@ -1,15 +1,57 @@
 {% extends "views/base.html" %}
 {% block body %}
-<table>
-  <tr>
-    <th>Name</th>
-    <th>Phone Number</th> 
-  </tr>
-  {% for user in users %}
+  <div class="format">
+    <label>User list</label>
+  <table class="table table-striped">
     <tr>
-      <td><a href="/user?id={{user.name}}">{{user.name}}</a></td>
-      <td>{{user.phone_number}}</td>
+      <th width="20">Name</th>
+      <th>Phone Number</th> 
     </tr>
+    {% for user in users %}
+      <tr>
+        <td><a href="/user?id={{user.name}}">{{user.name}}</a></td>
+        <td class="phone">{{user.phone_number}}</td>
+      </tr>
+    {% endfor %}
+  </table>
+</div>
+
+<!-- <ul class="list-group">
+   {% for user in users %}
+  <li class="list-group-item"><a href="/user?id={{user.name}}">{{user.name}}</a> <span>{{user.phone_number}}</span></li>
   {% endfor %}
-</table>
+</ul> -->
+
+  <script>
+    $(".phone").text(function(i, text) {
+        text = text.replace(/(\d{3})(\d{3})(\d{4})/, "($1) $2-$3");
+        return text;
+    });
+  </script>
+
+<style>
+  label {
+    margin-top: 4%;
+    margin-bottom: 2%;
+    font-family: 'lobster';
+    font-size: 30px;
+    font-weight: 500;
+  }
+  th {
+  font-family: 'Varela Round';
+    font-weight: 500;
+    font-size: 18px;
+    padding-top:  20px;
+  }
+  td {
+    padding-top: 5%;
+    text-align: left;
+    font-size: 15px;
+  }
+  .format {
+    padding: 5% 5%;
+    text-align: center;
+  }
+
+</style>
 {% endblock %}
