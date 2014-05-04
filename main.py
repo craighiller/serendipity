@@ -133,6 +133,12 @@ class WishIndexHandler(BaseHandler):
             flash = 'You are no longer fulfilling ' + wish.tagline
         elif self.request.get('confirm'):
             wish.status = 'fulfilled'
+            fulfiller =  User.get_by_key_name(wish.user_fulfiller_key)
+            wisher = User.get_by_key_name(wish.user_key)
+            fulfiller.money_raised += wish.cache_money
+            wisher.money_donated += wish.cache_money
+            fulfiller.put()
+            wisher.put()
             flash = 'Your wish of ' + wish.tagline + ' has been fulfilled!'
         else:
             wish.status = 'in progress'
@@ -210,7 +216,7 @@ class SignupHandler(BaseHandler):
             template_values['flash'] = 'Oops that username is taken!'
             self.response.out.write(template.render(template_values))
             return
-        cur_user = User.get_or_insert(username, name=username, phone_number = num, password=password, text_opt_in = opt_in)        
+        cur_user = User.get_or_insert(username, name=username, phone_number = num, password=password, text_opt_in = opt_in, money_donated=0.0, money_raised=0.0)        
             # no authentication hacks, sorry Wagner
         self.session['user_name'] = username
         self.session['num'] = num
