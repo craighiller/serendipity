@@ -62,8 +62,6 @@ class MainHandler(BaseHandler):
     def get(self):
         template_values = {'session':self.session}
         template_values['recent_wishes'] = Wish.gql("WHERE status = 'fulfilled' ORDER BY updated").fetch(8)
-        for wish in template_values['recent_wishes']:
-            print wish.key()
         template = jinja_environment.get_template("views/home.html")
         self.response.out.write(template.render(template_values))
 
@@ -202,7 +200,7 @@ class SignupHandler(BaseHandler):
     def post(self):
         username = self.request.get("username")
         password = self.request.get("password")
-        opt_in = self.request.get("receive_text")
+        opt_in = True if self.request.get("receive_text") else False
         num = texter.num_parse(self.request.get("phonenumber"))
         cur_user = User.get_by_key_name(username)
         template = jinja_environment.get_template("views/signup.html")
@@ -263,9 +261,11 @@ class goodmorningHandler(BaseHandler):
             if user.text_opt_in:
                 self.response.out.write("<b>"+user.name+"</b></br>")
                 # Take three random wishes that are not from the user
-                user_wishes = random.sample([wish for wish in Wish.all() if wish.user_key != user.name], 3)
+                potential_wishes = [wish for wish in Wish.all() if wish.user_key != user.name]
+                user_wishes = random.sample(potential_wishes, min(3, len(potential_wishes)))
                 for wish in user_wishes:
-                    self.response.out.write(wish.details+"<br>")
+                    self.response.out.write(wish.tagline+"<br>")
+                    texter.send_message(user.phone_number, wish.tagline)
             
             
 app = webapp2.WSGIApplication([
