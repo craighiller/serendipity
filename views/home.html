@@ -11,7 +11,7 @@
 		      		Request: <a href="wish?key={{wish.key()}}">{{wish.tagline}}</a><br />
 		      		Wisher: <a href="user?id={{wish.user_key}}">{{wish.user_key}}</a> <br />
 			        Fulfiller: <a href="user?id={{wish.user_fulfiller_key}}">{{wish.user_fulfiller_key}}</a> <br />
-			        Donation: {{wish.cache_money}}<br />
+			        Donation: ${{wish.cache_money}}<br />
 			    </p>
 			</li>
    		{% endfor %}

@@ -25,10 +25,10 @@ h2 {
 .recent-wish {
 	display: block;
 	position: relative;
-	width: 17.5%;
+	width: 20.5%;
 	box-shadow: 8px 8px 3px #888888;
 	margin: 2%;
-	height: 300px;
+	height: 450px;
 }
 
 .recent-wish img {
