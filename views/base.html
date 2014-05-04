@@ -30,6 +30,10 @@
     function comparer(index) {
         return function(a, b) {
             var valA = getCellValue(a, index), valB = getCellValue(b, index)
+            if (valA.substring(0, 1) == '$' && valB.substring(0, 1) == '$') {
+                valA = valA.substring(1)
+                valB = valB.substring(1)
+            }
             return $.isNumeric(valA) && $.isNumeric(valB) ? valA - valB : valA.localeCompare(valB)
         }
     }
