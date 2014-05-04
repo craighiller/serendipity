@@ -200,6 +200,12 @@ class goodbyeHandler(BaseHandler):
             wish.delete()   
         self.redirect("/")
 
+import twilio.twiml
+class twimlHandler(BaseHandler):
+    def get(self):
+        resp = twilio.twiml.Response()
+        resp.message("thank you come again")
+        self.response.out.write(str(resp))
         
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
@@ -211,6 +217,6 @@ app = webapp2.WSGIApplication([
     ('/users', UserIndexHandler),
     ('/user', UserHandler),
     ('/profile', ProfileHandler),
-    
+    ('/twiml', twimlHandler),
     ('/goodbyeFriends', goodbyeHandler)
 ], debug=True, config=config)
