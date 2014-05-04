@@ -67,7 +67,7 @@ class WishHandler(BaseHandler):
 
     def post(self):
         wish = Wish(
-            name=self.request.get("name"), 
+            tagline=self.request.get("tagline"), 
             details=self.request.get("details"), 
             type_of_request=self.request.get("type_of_request"),
             location=self.request.get("location"),
@@ -108,7 +108,7 @@ class WishIndexHandler(BaseHandler):
         if self.request.get('delete'):
             wish.status = 'requested'
             wish.user_fulfiller_key = None
-            template_values['flash'] = 'No longer fulfilling ' + wish.name
+            template_values['flash'] = 'No longer fulfilling ' + wish.tagline
         else:
             wish.status = 'in progress'
             wish.user_fulfiller_key = self.session['user_name']
@@ -121,7 +121,10 @@ class UserHandler(BaseHandler):
     def get(self):
         template_values = {'session':self.session}
         template_values['user'] = User.gql("WHERE name = :1", self.request.get('id')).fetch(1)[0] # shady, get the user w/ username
-        template_values['wishes'] = Wish.gql("WHERE user_key = :1", self.request.get('id'))
+        template_values['unfulfilled_wishes'] = Wish.gql("WHERE user_key = :1 AND status != 'confirmed'", self.request.get('id'))
+        template_values['fulfilled_wishes'] = Wish.gql("WHERE user_key = :1 AND status = 'confirmed'", self.request.get('id'))
+        template_values['wishes_to_complete'] = Wish.gql("WHERE user_fulfiller_key = :1 AND status != 'confirmed'", self.request.get('id'))
+        template_values['wishes_fulfilled_by_you'] = Wish.gql("WHERE user_fulfiller_key = :1 AND status = 'confirmed'", self.request.get('id'))
         template = jinja_environment.get_template("views/user.html")
         self.response.out.write(template.render(template_values))
 

@@ -7,11 +7,9 @@
     <div class="form-group">
       <label for="request">Type of Request
             <select name="type_of_request">
-              <option name="type_of_request" value="food">Food</option>
-              <option name="type_of_request" value="animal">Animal</option>
-              <option name="type_of_request" value="chores">Chores</option>
-              <option name="type_of_request" value="material things">Material things</option>
-              <option name="type_of_request" value="other">Other</option>
+              {% for t in ["food", "animal", "chores", "material things", "other"] %}
+                <option name="type_of_request" value="{{t}}">{{t}}</option>
+              {% endfor %}
           </select>
       </label>
     </div>
