@@ -94,6 +94,7 @@ class WishIndexHandler(BaseHandler):
     def post(self):
         wish = Wish.get(self.request.get("key"))
         wish.status = 'in progress'
+        wish.user_fulfiller_key = self.session['user_name']
         wish.put()
         template_values = {'session':self.session}
         template = jinja_environment.get_template("views/fulfill_a_wish_post.html")
