@@ -4,7 +4,7 @@
 <h2 id="name"> {{session['user_name']}}'s Wishes </h2>
 
 {% for t in range(4) %}
-  <div class="wishes" id={{['unfulfilled', 'fulfilled', 'to_complete', 'completed'][t]}}>
+  <div class="col-md-6 wishes" id={{['unfulfilled', 'fulfilled', 'to_complete', 'completed'][t]}}>
     <h3> Wishes {{['Unfulfilled', 'Fulfilled', 'To Complete', 'Completed by You'][t]}} </h3>
     <table class="table table-striped">
       <tr>

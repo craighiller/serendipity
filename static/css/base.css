@@ -1,5 +1,10 @@
+body, html {
+	margin:0;
+	padding:0;
+	color:#000;
+}
+
 body {
-	background-color: rgba(131, 139, 131, 0.2);
 	font-family: 'Varela Round';
 }
 
