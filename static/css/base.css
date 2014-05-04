@@ -79,3 +79,7 @@ li a:hover {
 #profile a:hover {
 	color:yellow;
 }
+
+.alert {
+	text-align: center;
+}
