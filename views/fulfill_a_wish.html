@@ -1,9 +1,16 @@
 {% extends "views/base.html" %}
 {% block body %}
-<a href="/fulfill_a_wish" class='btn btn-primary'>All</a>
-<a href="/fulfill_a_wish?status=requested" class='btn btn-primary'>Requested</a>
-<a href="/fulfill_a_wish?status=in progress" class='btn btn-primary'>In Progress</a>
-<a href="/fulfill_a_wish?status=confirmed" class='btn btn-primary'>Confirmed</a>
+<link rel="stylesheet" href="static/css/fulfill_a_wish.css">
+<form id="filter">
+  <h3>Filter by:</h3>
+  <h4>Status</h4>
+    <input type="radio" name="status" value="">All<br>
+    <input type="radio" name="status" value="requested">Requested<br>
+    <input type="radio" name="status" value="in progress">In Progress<br>
+    <input type="radio" name="status" value="confirmed">Confirmed<br>
+  <h4>Type<h4>
+  <h4>Location</h4>
+</form>
 <table>
   <tr>
     <th>User</th>
@@ -23,15 +30,19 @@
       <td>{{wish.type_of_request}}</td>
       <td>{{wish.location_dependent}}</td>
       <td>{{wish.location}}</td>
-      <td>{{wish.status}}</td>
-      <form method="post">
-        <input name="key" type="hidden" value="{{wish.key()}}" />
-        {% if wish.status == 'requested' %}
+      <td>{{wish.status.capitalize()}}</td>
+      {% if wish.status == 'requested' %}
+        <form method="post">
+          <input name="key" type="hidden" value="{{wish.key()}}" />
           <td><button class='btn btn-success'>Fulfill This Wish</td>
-        {% elif wish.status == 'in progress' and wish.user_fulfiller_key == session['user_name'] %}
+        </form>
+      {% elif wish.status == 'in progress' and wish.user_fulfiller_key == session['user_name'] %}
+        <form method="post">
+          <input name="delete" type="hidden" value="yes" />
+          <input name="key" type="hidden" value="{{wish.key()}}" />
           <td><button name=cancel class='btn btn-danger'>Cancel this wish</td>
-        {% endif %}
-      </form>
+        </form>
+      {% endif %}
     </tr>
   {% endfor %}
 </table>

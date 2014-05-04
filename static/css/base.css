@@ -24,7 +24,7 @@ ul {
 
 li {
 	display: inline;
-	margin-right: 2%;
+	margin-right: 5%;
 }
 
 li a {
@@ -54,17 +54,18 @@ li a:hover {
 #options {
 	margin-top: 3.5%;
 	display: inline-block;
+	width: 70%;
 }
 
 #profile {
 	margin-top: 3.5%;
-	text-align: right;
 	display: inline-block;
-	float: right;
 }
 
 #profile a {
 	color: rgba(255, 204, 0, 1);
+	font-size: 200%;
+	margin-left: 50px;
 }
 
 #profile a:hover {
