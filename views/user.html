@@ -2,15 +2,16 @@
 {% block body %}
   <h2>Name: {{user.name}}</h2>
   <h2>Phone: {{user.phone_number}}</h2>
-  <table>
+<table class="table table-striped">
   <tr>
-    <th>User</th>
+    <th>Requester</th>
     <th>Name</th>
     <th>Details</th> 
     <th>Type of Request</th>
     <th>Location Dependent?</th> 
     <th>Location</th>
     <th>Status</th>
+    <th>Fulfiller</th>
     <th>Action</th>
   </tr>
   {% for wish in wishes %}
@@ -22,6 +23,11 @@
       <td>{{wish.location_dependent}}</td>
       <td>{{wish.location}}</td>
       <td>{{wish.status.capitalize()}}</td>
+      {% if wish.status != requested %}
+        <td>{{wish.user_fulfiller_key}}</td>
+      {% else %}
+        <td></td>
+      {% endif %}
       {% if wish.status == 'requested' %}
         <form method="post" action="/fulfill_a_wish">
           <input name="key" type="hidden" value="{{wish.key()}}" />
@@ -33,6 +39,8 @@
           <input name="key" type="hidden" value="{{wish.key()}}" />
           <td><button name=cancel class='btn btn-danger'>Cancel this wish</td>
         </form>
+      {% else %}
+        <td></td>
       {% endif %}
     </tr>
   {% endfor %}

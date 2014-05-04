@@ -4,7 +4,7 @@
 <form id="filter">
   <h3>Filter by:</h3>
   <h4>Status</h4>
-    <input type="radio" name="status" value="">All<br>
+    <input type="radio" name="status" value="" onclick="this.form.submit()">All<br>
     <input type="radio" name="status" value="requested">Requested<br>
     <input type="radio" name="status" value="in progress">In Progress<br>
     <input type="radio" name="status" value="confirmed">Confirmed<br>
@@ -36,7 +36,7 @@
       <td>{{wish.location_dependent}}</td>
       <td>{{wish.location}}</td>
       <td>{{wish.status.capitalize()}}</td>
-      {% if wish.status != requested %}
+      {% if wish.status != 'requested' %}
         <td>{{wish.user_fulfiller_key}}</td>
       {% else %}
         <td></td>
