@@ -1,6 +1,10 @@
-
 {% extends "views/base.html" %}
 {% block body %}
+{% if flash %}
+  <div class="alert alert-danger">
+    <div style="margin-top: 100px;">{{flash}}</div>
+  </div>
+{% endif %}
 <h2> Create your profile </h2>
 <div id="sign-up">
     <img src="static/signup_star.png" height="300" width="300"><br>

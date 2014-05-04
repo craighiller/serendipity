@@ -16,15 +16,15 @@
 <h2> Find a wish to fulfill! </h2> 
 <table class="table table-striped">
   <tr>
-    <th>Requester</th>
-    <th>Type of Request</th> 
-    <th>Tagline</th>
-    <th>$ Reward</th>
-    <th>Details</th> 
-    <th>Time of Request</th>
-    <th>Location</th>
-    <th>Status</th>
-    <th>Fulfiller</th>
+    <th id='requester'>Requester</th>
+    <th id='type'>Type of Request</th> 
+    <th id='tag'>Tagline</th>
+    <th id='reward'>$ Reward</th>
+    <th id='details'>Details</th> 
+    <th id='time'>Time of Request</th>
+    <th id='location'>Location</th>
+    <th id='status'>Status</th>
+    <th id='fulfiller'>Fulfiller</th>
     <th>Action</th>
   </tr>
   {% for wish in wishes %}
@@ -65,4 +65,89 @@
     </tr>
   {% endfor %}
 </table>
+
+<script>
+  jQuery.fn.sortElements = (function(){
+    
+      var sort = [].sort;
+      
+      return function(comparator, getSortable) {
+          
+          getSortable = getSortable || function(){return this;};
+          
+          var placements = this.map(function(){
+              
+              var sortElement = getSortable.call(this),
+                  parentNode = sortElement.parentNode,
+                  
+                  // Since the element itself will change position, we have
+                  // to have some way of storing it's original position in
+                  // the DOM. The easiest way is to have a 'flag' node:
+                  nextSibling = parentNode.insertBefore(
+                      document.createTextNode(''),
+                      sortElement.nextSibling
+                  );
+              
+              return function() {
+                  
+                  if (parentNode === this) {
+                      throw new Error(
+                          "You can't sort elements if any one is a descendant of another."
+                      );
+                  }
+                  
+                  // Insert before flag:
+                  parentNode.insertBefore(this, nextSibling);
+                  // Remove flag:
+                  parentNode.removeChild(nextSibling);
+                  
+              };
+              
+          });
+         
+          return sort.call(this, comparator).each(function(i){
+              placements[i].call(getSortable.call(this));
+          });
+          
+      };
+      
+  })();
+  $( document ).ready(function() {
+    var table = $('table');
+
+    $('#requester, #reward')
+        .wrapInner('<span title="sort this column"/>')
+        .each(function(){
+            
+            var th = $(this),
+                thIndex = th.index(),
+                inverse = false;
+            
+            th.click(function(){
+                
+                table.find('td').filter(function(){
+                    
+                    return $(this).index() === thIndex;
+                    
+                }).sortElements(function(a, b){
+                    
+                    return $.text([a]) > $.text([b]) ?
+                        inverse ? -1 : 1
+                        : inverse ? 1 : -1;
+                    
+                }, function(){
+                    
+                    // parentNode is the element we want to move
+                    return this.parentNode; 
+                    
+                });
+                
+                inverse = !inverse;
+                    
+            });
+                
+        });
+  });
+</script>
 {% endblock %}
+

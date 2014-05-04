@@ -204,6 +204,7 @@ class SignupHandler(BaseHandler):
         template = jinja_environment.get_template("views/signup.html")
         if cur_user:
             template_values = {'session':self.session}
+            template_values['flash'] = 'Oops that username is taken!'
             self.response.out.write(template.render(template_values))
             return
         cur_user = User.get_or_insert(username, name=username, phone_number = num, password=password, text_opt_in = opt_in)        
