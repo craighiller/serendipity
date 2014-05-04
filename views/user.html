@@ -1,25 +1,18 @@
 {% extends "views/base.html" %}
 {% block body %}
-  <h2>Name: {{user.name}}</h2>
-  <h2>Phone: {{user.phone_number}}</h2>
-  <table>
+<h2>Current Wishes</h2>
+  <table class="table">
   <tr>
-    <th>User</th>
-    <th>Name</th>
-    <th>Details</th> 
     <th>Type of Request</th>
-    <th>Location Dependent?</th> 
+    <th>Details</th> 
     <th>Location</th>
     <th>Status</th>
     <th>Action</th>
   </tr>
   {% for wish in wishes %}
     <tr>
-      <td><a href="/user?id={{wish.user_key}}">{{wish.user_key}}</a></td>
-      <td>{{wish.name}}</td>
-      <td>{{wish.details}}</td>
       <td>{{wish.type_of_request}}</td>
-      <td>{{wish.location_dependent}}</td>
+      <td>{{wish.details}}</td>
       <td>{{wish.location}}</td>
       <td>{{wish.status.capitalize()}}</td>
       {% if wish.status == 'requested' %}
@@ -37,4 +30,5 @@
     </tr>
   {% endfor %}
 </table>
+<h2> Past Wishes </h2>
 {% endblock %}
