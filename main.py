@@ -162,7 +162,7 @@ class UserHandler(BaseHandler):
 class UserIndexHandler(BaseHandler):
     def get(self):
         template_values = {'session':self.session}
-        template_values['users'] = User.gql("ORDER BY money_donated")
+        template_values['users'] = User.gql("ORDER BY money_donated DESC")
         template = jinja_environment.get_template("views/users.html")
         self.response.out.write(template.render(template_values))
         
