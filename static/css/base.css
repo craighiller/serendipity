@@ -43,6 +43,10 @@ li {
 	margin-right: 5%;
 }
 
+a {
+	color: orange;
+}
+
 li a {
 	font-family: 'Dosis';
 	color: yellow;
