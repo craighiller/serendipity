@@ -12,7 +12,6 @@
     {% for t in ["food", "animal", "chores", "material things", "other"] %}
       <input type="checkbox" name="type_of_request" value={{t}} onclick="this.form.submit()" {{"checked='true'" if t in types}}>{{t.capitalize()}}<br>
     {% endfor %}
-  <h4>Location</h4>
 </form>
 <h2> Find a wish to fulfill! </h2> 
 <table class="table table-striped">
@@ -21,6 +20,7 @@
     <th>Type of Request</th> 
     <th>Tagline</th>
     <th>Details</th> 
+    <th>Time of Request</th>
     <th>Location</th>
     <th>Status</th>
     <th>Fulfiller</th>
@@ -32,10 +32,11 @@
       <td>{{wish.type_of_request}}</td>
       <td>{{wish.tagline}}</td>
       <td>{{wish.details}}</td>
+      <td>{{wish.created}}</td>
       <td>{{wish.location}}</td>
       <td>{{wish.status.capitalize()}}</td>
       {% if wish.status != 'requested' %}
-        <td>{{wish.user_fulfiller_key}}</td>
+        <td><a href="/user?id={{wish.user_fulfiller_key}}">{{wish.user_fulfiller_key}}</a></td>
       {% else %}
         <td></td>
       {% endif %}
@@ -44,11 +45,17 @@
           <input name="key" type="hidden" value="{{wish.key()}}" />
           <td><button class='btn btn-success'>Fulfill This Wish</td>
         </form>
+      {% elif wish.status == 'in progress' and wish.user_key == session['user_name'] %}
+        <form method="post">
+          <input name="confirm" type="hidden" value="yes" />
+          <input name="key" type="hidden" value="{{wish.key()}}" />
+          <td><button name=cancel class='btn btn-success'>Confirm This Wish</td>
+        </form>
       {% elif wish.status == 'in progress' and wish.user_fulfiller_key == session['user_name'] %}
         <form method="post">
           <input name="delete" type="hidden" value="yes" />
           <input name="key" type="hidden" value="{{wish.key()}}" />
-          <td><button name=cancel class='btn btn-danger'>Cancel this wish</td>
+          <td><button name=cancel class='btn btn-danger'>Cancel This Wish</td>
         </form>
       {% else %}
         <td></td>

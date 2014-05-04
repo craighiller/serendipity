@@ -67,10 +67,9 @@ class WishHandler(BaseHandler):
 
     def post(self):
         wish = Wish(
-            name=self.request.get("name"), 
+            tagline=self.request.get("tagline"), 
             details=self.request.get("details"), 
             type_of_request=self.request.get("type_of_request"),
-            location_dependent=(True if self.request.get("location_dependent") else False),
             location=self.request.get("location"),
             status="requested",
             user_key=self.session['user_name']
@@ -110,21 +109,25 @@ class WishIndexHandler(BaseHandler):
             wish.status = 'requested'
             wish.user_fulfiller_key = None
             template_values['flash'] = 'No longer fulfilling ' + wish.tagline
+        elif self.request.get('confirm'):
+            wish.status = 'confirmed'
+            template_values['flash'] = 'Confirmed ' + wish.tagline
         else:
             wish.status = 'in progress'
             wish.user_fulfiller_key = self.session['user_name']
             template_values['flash'] = 'Fulfilling ' + wish.tagline
         wish.put()
         template = jinja_environment.get_template("views/fulfill_a_wish_post.html")
-        print template_values
         self.response.out.write(template.render(template_values))
 
 class UserHandler(BaseHandler):
     def get(self):
         template_values = {'session':self.session}
         template_values['user'] = User.gql("WHERE name = :1", self.request.get('id')).fetch(1)[0] # shady, get the user w/ username
-        template_values['wishes'] = Wish.gql("WHERE user_key = :1", self.request.get('id'))
-        print template_values['wishes']
+        template_values['unfulfilled_wishes'] = Wish.gql("WHERE user_key = :1 AND status != 'confirmed'", self.request.get('id'))
+        template_values['fulfilled_wishes'] = Wish.gql("WHERE user_key = :1 AND status = 'confirmed'", self.request.get('id'))
+        template_values['wishes_to_complete'] = Wish.gql("WHERE user_fulfiller_key = :1 AND status != 'confirmed'", self.request.get('id'))
+        template_values['wishes_fulfilled_by_you'] = Wish.gql("WHERE user_fulfiller_key = :1 AND status = 'confirmed'", self.request.get('id'))
         template = jinja_environment.get_template("views/user.html")
         self.response.out.write(template.render(template_values))
 
@@ -139,6 +142,7 @@ class LoginHandler(BaseHandler):
     def get(self):
         template = jinja_environment.get_template("views/login.html")
         template_values = {"denied": False, 'session':self.session}
+        template_values['session']['flash'] = 'Denied'
         
         self.response.out.write(template.render(template_values))
         
@@ -180,7 +184,7 @@ class SignupHandler(BaseHandler):
         cur_user = User.get_by_key_name(username)
         template = jinja_environment.get_template("views/signup.html")
         if cur_user:
-            template_values = {"flash": "Sorry, username already exists.", 'session':self.session}
+            template_values = {'session':self.session}
             self.response.out.write(template.render(template_values))
             return
         cur_user = User.get_or_insert(username, name=username, phone_number = num, password=password)        
