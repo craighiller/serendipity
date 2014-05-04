@@ -5,3 +5,8 @@
 	padding-right: 3%;
 	height: inherit;
 }
+
+.fulfilled {
+	display: inline-block;
+}
+

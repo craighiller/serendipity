@@ -2,58 +2,25 @@
 {% block body %}
 <link rel="stylesheet" href="static/css/home.css">
 <h2> Wishes Granted Recently</h2>
-
-   <div class="panel panel-default granted">
-   <img src="static/cupcake.png">
-      <div class="panel-body">
-      	<p>
-	         Name: Ryan Mar<br />
- 	         Fulfilled by: Peter Dang <br />
- 	         Type: Food <br />
-	         Details: Mint chocolate chip cupcake<br />
-	         Donation: $5.00<br />
-	     </p>
-      </div>
-   </div>
-   <div class="panel panel-default granted">
-      <img src="static/cupcake.png">
-      <div class="panel-body">
-      	<p>
-	         Name: Ryan Mar<br />
- 	         Fulfilled by: Peter Dang <br />
- 	         Type: Food <br />
-	         Details: Mint chocolate chip cupcake<br />
-	         Donation: $5.00<br />
-	     </p>
-      </div>
-   </div>
-      <div class="panel panel-default granted">
-      <img src="static/cupcake.png">
-      <div class="panel-body">
-      	<p>
-	         Name: Ryan Mar<br />
- 	         Fulfilled by: Peter Dang <br />
- 	         Type: Food <br />
-	         Details: Mint chocolate chip cupcake<br />
-	         Donation: $5.00<br />
-	     </p>
-      </div>
-   </div>
-      <div class="panel panel-default granted">
-      <img src="static/cupcake.png">
-      <div class="panel-body">
-      	<p>
-	         Name: Ryan Mar<br>
-	         Fulfilled by: Peter Dang <br />
-	         Type: Food <br />
-	         Details: Mint chocolate chip cupcake<br />
-	         Donation: $5.00<br />
-	     </p>
-      </div>
-   </div>
+	{% for wish in recent_wishes %}
+		<div class="panel panel-default granted">
+	      	<div class="panel-body">
+	      		<img src="static/{{wish.type_of_request}}.jpg">
+		      	<p>
+		      		Request: <a href="wish?key={{wish.key()}}">{{wish.tagline}}</a> <br />
+		      		Wisher: <a href="user?id={{wish.user_key}}">{{wish.user_key}}</a> <br />
+			        Fulfiller: <a href="user?id={{wish.user_fulfiller_key}}">{{wish.user_fulfiller_key}}</a> <br />
+			        Donation: {{wish.cache_money}}<br />
+			     </p>
+		   </div>
+	 	</div>
+   	{% endfor %}
 	<style>
 		h2 {
 			text-align: center;
+		}
+		img {
+			width: 100px;
 		}
 		.granted {
 			margin: 6% 3%;
