@@ -63,11 +63,14 @@ class WishHandler(BaseHandler):
     def get(self):
         template_values = {'session':self.session}
         template_values['wish'] = Wish.get(self.request.get("key"))
+        template_values['flash'] = self.request.get('flash')
         template = jinja_environment.get_template("views/wish.html")
         self.response.out.write(template.render(template_values))
 
 class MakeAWishHandler(BaseHandler):
     def get(self):
+        if not self.session['authenticated']:
+            return self.redirect('/login?redirect=true')
         template_values = {'session':self.session}
         template = jinja_environment.get_template("views/make_a_wish.html")
         self.response.out.write(template.render(template_values))
@@ -82,9 +85,7 @@ class MakeAWishHandler(BaseHandler):
             user_key=self.session['user_name']
         )
         wish.put()
-        template_values = {'session':self.session}
-        template = jinja_environment.get_template("views/make_a_wish_post.html")
-        self.response.out.write(template.render(template_values))
+        return self.redirect('/wish?key=' + str(wish.key()) + '&flash=You made a wish!')
 
 class WishIndexHandler(BaseHandler):
     def get(self):
@@ -110,20 +111,23 @@ class WishIndexHandler(BaseHandler):
         self.response.out.write(template.render(template_values))
 
     def post(self):
+        if not self.session['authenticated']:
+            return self.redirect('/login?redirect=true')
         template_values = {'session':self.session}
         wish = Wish.get(self.request.get("key"))
         if self.request.get('delete'):
             wish.status = 'requested'
             wish.user_fulfiller_key = None
-            template_values['flash'] = 'No longer fulfilling ' + wish.tagline
+            flash = 'No longer fulfilling ' + wish.tagline
         elif self.request.get('confirm'):
             wish.status = 'confirmed'
-            template_values['flash'] = 'Confirmed ' + wish.tagline
+            flash = 'Confirmed ' + wish.tagline
         else:
             wish.status = 'in progress'
             wish.user_fulfiller_key = self.session['user_name']
-            template_values['flash'] = 'Fulfilling ' + wish.tagline
+            flash = 'Fulfilling ' + wish.tagline
         wish.put()
+        return self.redirect('/wish?key=' + str(wish.key()) + '&flash=' + flash)
         template = jinja_environment.get_template("views/fulfill_a_wish_post.html")
         self.response.out.write(template.render(template_values))
 
@@ -149,7 +153,8 @@ class LoginHandler(BaseHandler):
     def get(self):
         template = jinja_environment.get_template("views/login.html")
         template_values = {"denied": False, 'session':self.session}
-        template_values['session']['flash'] = 'Denied'
+        if self.request.get('redirect'):
+            template_values["denied"] = True
         
         self.response.out.write(template.render(template_values))
         
@@ -223,6 +228,23 @@ class goodbyeHandler(BaseHandler):
             wish.delete()   
         self.redirect("/")
 
+import twilio.twiml
+class twimlHandler(BaseHandler):
+    # Will work when called in production, sample request is:
+    
+    """
+    /twiml?ToCountry=US&ToState=NJ&SmsMessageSid=SM3fec99a49092c1f42acc022222e0d288&NumMedia=0&ToCity=RED+BANK&FromZip=07748&SmsSid=SM3fec99a49092c1f42acc022222e0d288&FromState=NJ&SmsStatus=received&FromCity=MIDDLETOWN&Body=Hi&FromCountry=US&To=%2B17329454001&ToZip=08830&MessageSid=SM3fec99a49092c1f42acc022222e0d288&AccountSid=AC16b8cb7d55a29a0425c18637b3398b71&From=%2B17325333935&ApiVersion=2010-04-01
+    
+    """
+    def get(self):
+        body = self.request.get("Body")
+        from_num = texter.num_parse(self.request.get("From"))
+        
+        # If you want to insta send back a message, but I think this is useless
+        
+        #resp = twilio.twiml.Response()
+        #resp.message("thank you come again")
+        #self.response.out.write(str(resp))
         
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
@@ -235,6 +257,6 @@ app = webapp2.WSGIApplication([
     ('/users', UserIndexHandler),
     ('/user', UserHandler),
     ('/profile', ProfileHandler),
-    
+    ('/twiml', twimlHandler),
     ('/goodbyeFriends', goodbyeHandler)
 ], debug=True, config=config)
