@@ -82,7 +82,14 @@ class Factory:
         }
         data.update(params)
         return self.build_request(('upload',), data)
-
+    def build_request_upload_from_data(self, image, name, params = dict()):
+        data = {
+            'image': base64.b64encode(image),
+            'type': 'base64',
+            'name': name
+        }
+        data.update(params)
+        return self.build_request(('upload'), data)
     def build_request_oauth_token_swap(self, grant_type, token):
         data = {
             'client_id': self.config['client_id'],

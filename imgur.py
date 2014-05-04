@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 import json, sys, time as dt, pprint, math
 
+import imgur_config
+
 from Imgur.Factory import Factory
 from Imgur.Auth.Expired import Expired
 
@@ -23,54 +25,16 @@ def two_column_with_period(left, right, length):
     return left + ' ' + ('.' * num_periods) + ' ' + right
 
 
-def main():
-    config = None
-    try:
-        fd = open('config.json', 'r')
-    except:
-        print("config file [config.json] not found.")
-        sys.exit(1)
-    try:
-        config = json.loads(fd.read())
-    except:
-        print("invalid json in config file.")
-        sys.exit(1)
-
+def upload(image, name):
+    config = imgur_config.config()
     factory = Factory(config)
 
-    action = "upload"#sys.argv[1]
-
-    authorized_commands = [
-        'upload-auth',
-        'comment',
-        'vote-gallery',
-        'vote-comment'
-    ]
-
-    oauth_commands = [
-        'credits',
-        'refresh',
-        'authorize'
-    ]
+    action = "upload"
 
     handle_unauthorized_commands(factory, "upload")
-    #if action in authorized_commands:
-    #    handle_authorized_commands(factory, action)
-    #else:
-    #    if action in oauth_commands:
-    #        handle_oauth_commands(factory, config, action)
-    #    else:
-    #        handle_unauthorized_commands(factory, action)
 
-def handle_unauthorized_commands(factory, action):
     imgur = factory.build_api()
-    req = None
 
-    if action == 'upload':
-        print "swagity"
-        req = factory.build_request_upload_from_path(sys.argv[2])
-        res = imgur.retrieve(req)
-        print "swag"
-        print(res['link'])
-
-main()
+    req = factory.build_request_upload_from_data(image, name)
+    res = imgur.retrieve(req)
+    print(res['link'])
