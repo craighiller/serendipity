@@ -272,7 +272,7 @@ class goodmorningHandler(BaseHandler):
                 user_wishes = random.sample(potential_wishes, min(3, len(potential_wishes)))
                 for wish in user_wishes:
                     self.response.out.write(wish.tagline+"<br>")
-                    texter.send_message(user.phone_number, "Consider fulfilling " + wish.tagline + " on http://hackserendipity.appspot.com/")
+                    #texter.send_message(user.phone_number, "Consider fulfilling " + wish.tagline + " on http://hackserendipity.appspot.com/")
             
 class picHandler(BaseHandler):
     def get(self):
