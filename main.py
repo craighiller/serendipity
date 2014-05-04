@@ -84,6 +84,7 @@ class WishIndexHandler(BaseHandler):
         template_values = {'session':self.session}
         search = self.request.get("status")
         types = self.request.get_all('type_of_request')
+        print types
         if not types:
             types = ['food', 'animal', 'chores', 'material things', 'other']
             template_values['types'] = types
