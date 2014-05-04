@@ -10,3 +10,8 @@
 	display: inline-block;
 }
 
+h3 {
+	text-align: right;
+	margin-right: 3%;
+}
+
