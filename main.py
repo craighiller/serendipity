@@ -19,6 +19,7 @@ import jinja2
 import os
 import logging
 import texter
+import re
 
 from webapp2_extras import sessions
 
@@ -80,6 +81,10 @@ class MakeAWishHandler(BaseHandler):
         self.response.out.write(template.render(template_values))
 
     def post(self):
+        money = 0
+        if self.request.get("cache_money"):
+            money = re.sub('[,$ ]', '', self.request.get("cache_money"))
+
         wish = Wish(
             tagline=self.request.get("tagline"), 
             details=self.request.get("details"), 
@@ -87,7 +92,7 @@ class MakeAWishHandler(BaseHandler):
             location=self.request.get("location"),
             status="requested",
             user_key=self.session['user_name'],
-            cache_money = self.request.get("cache_money")
+            cache_money=float(money)
         )
         wish.put()
         self.redirect('/wish?key=' + str(wish.key()) + '&flash=You made a wish!')
@@ -123,10 +128,10 @@ class WishIndexHandler(BaseHandler):
         if self.request.get('delete'):
             wish.status = 'requested'
             wish.user_fulfiller_key = None
-            flash = 'No longer fulfilling ' + wish.tagline
+            flash = 'You are no longer fulfilling ' + wish.tagline
         elif self.request.get('confirm'):
             wish.status = 'fulfilled'
-            flash = 'Confirmed ' + wish.tagline
+            flash = 'Your wish of ' + wish.tagline + ' has been fulfilled!'
         else:
             wish.status = 'in progress'
             wish.user_fulfiller_key = self.session['user_name']
