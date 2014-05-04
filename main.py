@@ -174,6 +174,8 @@ class SignupHandler(BaseHandler):
                     
 class LogoutHandler(BaseHandler):
     def get(self):
+        self.session['user_name'] = ""
+        self.session['num'] = ""
         self.session['authenticated'] = False
         self.redirect('/')
 
