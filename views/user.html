@@ -20,7 +20,7 @@
         <td>{{wish.location_dependent}}</td>
         <td>{{wish.location}}</td>
         <td>{{wish.status}}</td>
-        <form method="post">
+        <form method="post" action="/fulfill_a_wish">
           <input name="key" type="hidden" value="{{wish.key()}}" />
           {% if wish.status == 'requested' %}
             <td><button class='btn btn-success'>Fulfill This Wish</td>
