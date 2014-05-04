@@ -49,7 +49,7 @@
         <form method="post">
           <input name="confirm" type="hidden" value="yes" />
           <input name="key" type="hidden" value="{{wish.key()}}" />
-          <td><button name=cancel class='btn btn-success'>Confirm This Wish</td>
+          <td><button name=cancel class='btn btn-warning'>Mark As Fulfilled</td>
         </form>
       {% elif wish.status == 'in progress' and wish.user_fulfiller_key == session['user_name'] %}
         <form method="post">
