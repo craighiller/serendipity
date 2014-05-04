@@ -1,23 +1,12 @@
 {% extends "views/base.html" %}
 {% block body %}
-<div id="sign-in">
-	<form class="form-signin" role="form" method="post">
-		<img src="static/star.png" height="300" width="300"><br>
-		Username: <a href="/user?id={{session["user_name"]}}">{{session["user_name"]}}</a> (see your wishes!)<br><br>
-	    <input  name="phonenumber" type="text" class="form-control" value="{{session['num']}}" required><br>
-	    
-	    <input  name="password" type="password" class="form-control" placeholder="Password" required><br>
+<div id="edit-profile-wrapper">
+	<form class="edit-profile" role="form" method="post">
+		<h2> Edit your profile: </h2>
+	    Phone Number: <input  name="phonenumber" type="text" class="form-control" value="{{session['num']}}" required><br>
+	    Password: <input  name="password" type="password" class="form-control" placeholder="Password" required><br>
 	    <button class="btn btn-lg btn-primary" type="submit">Update</button>
 	</form>
 </div>
-<style>
-	img {
-		margin: 3%;
-	}
-
-	#sign-in {
-		text-align: center;
-	}
-</style>
 {% endblock %}
 
