@@ -7,14 +7,13 @@
   </div>
 {% endif %}
 <h2 id="name"> {{session['user_name']}}'s Wishes </h2>
-
 {% for t in range(4) %}
   {% if t == 0 %}
     <h3> Money donated by you: </h3>
   {% elif t == 2 %}
     <h3> Money raised by you: </h3>
   {% endif %}
-  <div class="col-md-6 wishes" id={{['unfulfilled', 'fulfilled', 'to_complete', 'completed'][t]}}>
+  <div class="wishes" id={{['unfulfilled', 'fulfilled', 'to_complete', 'completed'][t]}}>
     <table class="table">
       <caption> Wishes {{['Unfulfilled', 'Fulfilled', 'To Complete', 'Completed by You'][t]}} </caption>
       <tr>

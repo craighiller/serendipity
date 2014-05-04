@@ -3,8 +3,15 @@
 <div class="form-wrapper">
 	<form class="edit-profile" role="form" method="post">
 		<h2> Edit your profile: </h2>
-	    Phone Number: <input  name="phonenumber" type="text" class="form-control" value="{{session['num']}}" required><br>
-	    Password: <input  name="password" type="password" class="form-control" placeholder="Password" required><br>
+        <label for="phonenumber">
+            Phone Number <input  name="phonenumber" type="text" class="form-control" required>
+        </label>
+        <label for="password">
+            Password <input  name="password" type="password" class="form-control" required><br>
+        </label>
+        <label for="receive_text">
+            Receive daily text with wishes? <input name="receive_text" type="checkbox" checked>
+        </label>
 	    <button class="btn btn-lg btn-primary" type="submit">Update</button>
 	</form>
 </div>
