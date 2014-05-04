@@ -1,44 +1,177 @@
 {% extends "views/base.html" %}
 {% block body %}
-<h2> Current Wishes </h2>
-<h2> Past Wishes </h2>
-<table class="table table-striped">
-  <tr>
-    <th>Time of Request</th>
-    <th>Type of Request</th>
-    <th>Details</th> 
-    <th>Location</th>
-    <th>Status</th>
-    <th>Fulfiller</th>
-    <th>Action</th>
-  </tr>
-  {% for wish in wishes %}
+<link rel="stylesheet" href="static/css/user.css">
+<h2 id="name"> {{session['user_name']}}'s Wishes </h2>
+
+<div class="wishes" id="unfulfilled">
+  <h3> Unfulfilled wishes </h3>
+  <table class="table table-striped">
     <tr>
-      <td>{{wish.time}}</td>
-      <td>{{wish.type_of_request}}</td>
-      <td>{{wish.details}}</td>
-      <td>{{wish.location}}</td>
-      <td>{{wish.status.capitalize()}}</td>
-      {% if wish.status != requested %}
-        <td>{{wish.user_fulfiller_key}}</td>
-      {% else %}
-        <td></td>
-      {% endif %}
-      {% if wish.status == 'requested' %}
-        <form method="post" action="/fulfill_a_wish">
-          <input name="key" type="hidden" value="{{wish.key()}}" />
-          <td><button class='btn btn-success'>Fulfill This Wish</td>
-        </form>
-      {% elif wish.status == 'in progress' and wish.user_fulfiller_key == session['user_name'] %}
-        <form method="post" action="/fulfill_a_wish">
-          <input name="delete" type="hidden" value="yes" />
-          <input name="key" type="hidden" value="{{wish.key()}}" />
-          <td><button name=cancel class='btn btn-danger'>Cancel this wish</td>
-        </form>
-      {% else %}
-        <td></td>
-      {% endif %}
+      <th>Time of Request</th>
+      <th>Type of Request</th>
+      <th>Details</th> 
+      <th>Location</th>
+      <th>Status</th>
+      <th>Fulfiller</th>
+      <th>Action</th>
     </tr>
-  {% endfor %}
-</table>
+    {% for wish in wishes %}
+      <tr>
+        <td>{{wish.time}}</td>
+        <td>{{wish.type_of_request}}</td>
+        <td>{{wish.details}}</td>
+        <td>{{wish.location}}</td>
+        <td>{{wish.status.capitalize()}}</td>
+        {% if wish.status != requested %}
+          <td>{{wish.user_fulfiller_key}}</td>
+        {% else %}
+          <td></td>
+        {% endif %}
+        {% if wish.status == 'requested' %}
+          <form method="post" action="/fulfill_a_wish">
+            <input name="key" type="hidden" value="{{wish.key()}}" />
+            <td><button class='btn btn-success'>Fulfill This Wish</td>
+          </form>
+        {% elif wish.status == 'in progress' and wish.user_fulfiller_key == session['user_name'] %}
+          <form method="post" action="/fulfill_a_wish">
+            <input name="delete" type="hidden" value="yes" />
+            <input name="key" type="hidden" value="{{wish.key()}}" />
+            <td><button name=cancel class='btn btn-danger'>Cancel this wish</td>
+          </form>
+        {% else %}
+          <td></td>
+        {% endif %}
+      </tr>
+    {% endfor %}
+  </table>
+</div>
+
+<div class="wishes" id="fulfilled">
+  <h3> Fulfilled wishes </h3>
+  <table class="table table-striped">
+    <tr>
+      <th>Time of Request</th>
+      <th>Type of Request</th>
+      <th>Details</th> 
+      <th>Location</th>
+      <th>Status</th>
+      <th>Fulfiller</th>
+      <th>Action</th>
+    </tr>
+    {% for wish in wishes %}
+      <tr>
+        <td>{{wish.time}}</td>
+        <td>{{wish.type_of_request}}</td>
+        <td>{{wish.details}}</td>
+        <td>{{wish.location}}</td>
+        <td>{{wish.status.capitalize()}}</td>
+        {% if wish.status != requested %}
+          <td>{{wish.user_fulfiller_key}}</td>
+        {% else %}
+          <td></td>
+        {% endif %}
+        {% if wish.status == 'requested' %}
+          <form method="post" action="/fulfill_a_wish">
+            <input name="key" type="hidden" value="{{wish.key()}}" />
+            <td><button class='btn btn-success'>Fulfill This Wish</td>
+          </form>
+        {% elif wish.status == 'in progress' and wish.user_fulfiller_key == session['user_name'] %}
+          <form method="post" action="/fulfill_a_wish">
+            <input name="delete" type="hidden" value="yes" />
+            <input name="key" type="hidden" value="{{wish.key()}}" />
+            <td><button name=cancel class='btn btn-danger'>Cancel this wish</td>
+          </form>
+        {% else %}
+          <td></td>
+        {% endif %}
+      </tr>
+    {% endfor %}
+  </table>
+</div>
+
+<div class="wishes" id="to_complete">
+  <h3> Wishes to complete </h3>
+    <table class="table table-striped">
+    <tr>
+      <th>Time of Request</th>
+      <th>Type of Request</th>
+      <th>Details</th> 
+      <th>Location</th>
+      <th>Status</th>
+      <th>Fulfiller</th>
+      <th>Action</th>
+    </tr>
+    {% for wish in wishes %}
+      <tr>
+        <td>{{wish.time}}</td>
+        <td>{{wish.type_of_request}}</td>
+        <td>{{wish.details}}</td>
+        <td>{{wish.location}}</td>
+        <td>{{wish.status.capitalize()}}</td>
+        {% if wish.status != requested %}
+          <td>{{wish.user_fulfiller_key}}</td>
+        {% else %}
+          <td></td>
+        {% endif %}
+        {% if wish.status == 'requested' %}
+          <form method="post" action="/fulfill_a_wish">
+            <input name="key" type="hidden" value="{{wish.key()}}" />
+            <td><button class='btn btn-success'>Fulfill This Wish</td>
+          </form>
+        {% elif wish.status == 'in progress' and wish.user_fulfiller_key == session['user_name'] %}
+          <form method="post" action="/fulfill_a_wish">
+            <input name="delete" type="hidden" value="yes" />
+            <input name="key" type="hidden" value="{{wish.key()}}" />
+            <td><button name=cancel class='btn btn-danger'>Cancel this wish</td>
+          </form>
+        {% else %}
+          <td></td>
+        {% endif %}
+      </tr>
+    {% endfor %}
+  </table>
+</div>
+
+<div class="wishes" id="completed">
+  <h3> Wishes fulfilled by you </h3>
+  <table class="table table-striped">
+    <tr>
+      <th>Time of Request</th>
+      <th>Type of Request</th>
+      <th>Details</th> 
+      <th>Location</th>
+      <th>Status</th>
+      <th>Fulfiller</th>
+      <th>Action</th>
+    </tr>
+    {% for wish in wishes %}
+      <tr>
+        <td>{{wish.time}}</td>
+        <td>{{wish.type_of_request}}</td>
+        <td>{{wish.details}}</td>
+        <td>{{wish.location}}</td>
+        <td>{{wish.status.capitalize()}}</td>
+        {% if wish.status != requested %}
+          <td>{{wish.user_fulfiller_key}}</td>
+        {% else %}
+          <td></td>
+        {% endif %}
+        {% if wish.status == 'requested' %}
+          <form method="post" action="/fulfill_a_wish">
+            <input name="key" type="hidden" value="{{wish.key()}}" />
+            <td><button class='btn btn-success'>Fulfill This Wish</td>
+          </form>
+        {% elif wish.status == 'in progress' and wish.user_fulfiller_key == session['user_name'] %}
+          <form method="post" action="/fulfill_a_wish">
+            <input name="delete" type="hidden" value="yes" />
+            <input name="key" type="hidden" value="{{wish.key()}}" />
+            <td><button name=cancel class='btn btn-danger'>Cancel this wish</td>
+          </form>
+        {% else %}
+          <td></td>
+        {% endif %}
+      </tr>
+    {% endfor %}
+    </table>
+</div>
 {% endblock %}
