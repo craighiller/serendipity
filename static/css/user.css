@@ -1,0 +1,25 @@
+.wishes {
+	text-align: center;
+}
+
+#unfulfilled {
+	width: 45%;
+	display: inline-block;
+}
+
+#fulfilled {
+	width: 45%;
+	display: inline-block;
+	float: right;
+}
+
+#to_complete {
+	width: 45%;
+	display: inline-block;
+}
+
+#completed {
+	width: 45%;
+	display: inline-block;
+	float: right;
+}
