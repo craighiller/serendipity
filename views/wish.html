@@ -1,25 +1,27 @@
 {% extends "views/base.html" %}
 {% block body %}
+<link rel="stylesheet" href="static/css/wish.css">
   {% if flash %}
     <div class="alert alert-success">
       <div style="margin-top: 100px;">{{flash}}</div>
     </div>
   {% endif %}
   <h2> Wish by <a href="/user?id={{wish.user_key}}">{{wish.user_key}}</a></h2>
-  <table>
+  <center><table>
       {% for i in range(8) %}
         <tr>
           {% if i == 7 %}
             {% if wish.status != 'requested' %}
-              <th> Fulfiller </th>
-              <th><a href="/user?id={{wish.user_fulfiller_key}}">{{wish.user_fulfiller_key}}</a>
+              <td> Fulfiller </td>
+              <td class="field"> <a href="/user?id={{wish.user_fulfiller_key}}">{{wish.user_fulfiller_key}}</a></td>
             {% endif %}
           {% else %}
-            <th>{{['Type of Request', 'Tagline', 'Detail', 'Time of Request', 'Location', 'Status'][i]}}</th>
-            <th>{{[wish.type_of_request, wish.tagline, wish.details, wish.time(), wish.location, wish.status.capitalize()][i]}}</th> 
+            <td>{{['Type of Request', 'Tagline', 'Detail', 'Time of Request', 'Location', 'Status'][i]}}</td>
+            <td class="field">{{[wish.type_of_request, wish.tagline, wish.details, wish.time(), wish.location, wish.status.capitalize()][i]}}</td> 
           {% endif %}
+        </tr>
       {% endfor %}
-  </table>
+  </table></center>
 
   {% if wish.status == 'requested' %}
     <form method="post" action="/fulfill_a_wish">
