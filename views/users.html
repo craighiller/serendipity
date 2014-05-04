@@ -5,12 +5,14 @@
   <table class="table table-striped">
     <tr>
       <th width="20">Name</th>
-      <th>Phone Number</th> 
+      <th>Money Donated</th> 
+      <th>Money Raised</th>
     </tr>
     {% for user in users %}
       <tr>
         <td><a href="/user?id={{user.name}}">{{user.name}}</a></td>
-        <td class="phone">{{user.phone_number}}</td>
+        <td>{{user.money_donated}}</td>
+        <td>{{user.money_raised}}</td>
       </tr>
     {% endfor %}
   </table>
