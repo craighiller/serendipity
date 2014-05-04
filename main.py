@@ -86,7 +86,8 @@ class MakeAWishHandler(BaseHandler):
             type_of_request=self.request.get("type_of_request"),
             location=self.request.get("location"),
             status="requested",
-            user_key=self.session['user_name']
+            user_key=self.session['user_name'],
+            cache_money = self.request.get("cache_money")
         )
         wish.put()
         self.redirect('/wish?key=' + str(wish.key()) + '&flash=You made a wish!')
