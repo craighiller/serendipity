@@ -35,6 +35,8 @@
         <input name="key" type="hidden" value="{{wish.key()}}" />
         {% if wish.status == 'requested' %}
           <td><button class='btn btn-success'>Fulfill This Wish</td>
+        {% elif wish.status == 'in progress' and wish.user_fulfiller_key == session['user_name'] %}
+          <td><button name=cancel class='btn btn-danger'>Cancel this wish</td>
         {% endif %}
       </form>
     </tr>

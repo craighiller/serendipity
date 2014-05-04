@@ -5,7 +5,7 @@ class Wish(db.Model):
     created = db.DateTimeProperty(auto_now_add=True)
     updated = db.DateTimeProperty(auto_now=True)
     name = db.StringProperty(required=True)
-    details = db.StringProperty(required=True)
+    details = db.TextProperty(required=True)
     type_of_request = db.StringProperty()
     location_dependent = db.BooleanProperty()
     location = db.StringProperty()
