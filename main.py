@@ -225,10 +225,21 @@ class goodbyeHandler(BaseHandler):
 
 import twilio.twiml
 class twimlHandler(BaseHandler):
+    # Will work when called in production, sample request is:
+    
+    """
+    /twiml?ToCountry=US&ToState=NJ&SmsMessageSid=SM3fec99a49092c1f42acc022222e0d288&NumMedia=0&ToCity=RED+BANK&FromZip=07748&SmsSid=SM3fec99a49092c1f42acc022222e0d288&FromState=NJ&SmsStatus=received&FromCity=MIDDLETOWN&Body=Hi&FromCountry=US&To=%2B17329454001&ToZip=08830&MessageSid=SM3fec99a49092c1f42acc022222e0d288&AccountSid=AC16b8cb7d55a29a0425c18637b3398b71&From=%2B17325333935&ApiVersion=2010-04-01
+    
+    """
     def get(self):
-        resp = twilio.twiml.Response()
-        resp.message("thank you come again")
-        self.response.out.write(str(resp))
+        body = self.request.get("Body")
+        from_num = texter.num_parse(self.request.get("From"))
+        
+        # If you want to insta send back a message, but I think this is useless
+        
+        #resp = twilio.twiml.Response()
+        #resp.message("thank you come again")
+        #self.response.out.write(str(resp))
         
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
