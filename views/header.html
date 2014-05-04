@@ -1,8 +1,8 @@
 <header>
 	<div id="header-wrapper">	
 		<div id="icon">
-			<a href="/"><h1>Serendipity</h1>
-		</div></a>
+			<a href="/"><h1>Serendipity</h1></a>
+		</div>
 		<div id="options-wrapper">
 			<div id="options">
 				<ul>
@@ -16,10 +16,10 @@
 			</div>
 			<div id="profile">
 				{% if 'authenticated' in session and session['authenticated'] %}
-					<a href="/profile"> {{session['user_name']}} </a></li>
-					<a href="/logout"> Logout </a></li>
+					<a href="/profile"> {{session['user_name']}} </a>
+					<a href="/logout"> Logout </a>
 				{% else %}
-					<a href="/login"> Login </a></li>
+					<a href="/login"> Login </a>
 				{% endif %}	
 			</div>
 		</div>
