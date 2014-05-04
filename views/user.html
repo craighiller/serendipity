@@ -20,6 +20,7 @@
         <th>Tagline</th>
         <th>Status</th>
       </tr>
+      <div class="fulfilled">
       {% for wish in [unfulfilled, fulfilled, to_complete, completed][t] %}
         {% if t % 2 == 0 %}
           <tr class="warning">
@@ -33,6 +34,7 @@
           </tr>
         {% endif %}
       {% endfor %}
+    </div>
       </table>
   </div>
 {% endfor %}
