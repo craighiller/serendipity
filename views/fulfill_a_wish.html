@@ -4,15 +4,15 @@
 <form id="filter">
   <h3>Filter by:</h3>
   <h4>Status</h4>
-    <input type="radio" name="status" value="">All<br>
-    <input type="radio" name="status" value="requested">Requested<br>
-    <input type="radio" name="status" value="in progress">In Progress<br>
-    <input type="radio" name="status" value="confirmed">Confirmed<br>
+    <input type="radio" name="status" value="all" onclick="this.form.submit()" {{"checked='true'" if search == 'all'}}>All<br>
+    <input type="radio" name="status" value="requested" onclick="this.form.submit()" {{"checked='true'" if search == 'requested'}}>Requested<br>
+    <input type="radio" name="status" value="in progress" onclick="this.form.submit()" {{"checked='true'" if search == 'in progress'}}>In Progress<br>
+    <input type="radio" name="status" value="confirmed" onclick="this.form.submit()" {{"checked='true'" if search == 'confirmed'}}>Confirmed<br>
   <h4>Type</h4>
-    <input type="checkbox" name="type_of_request" value="food">food<br>
-    <input type="checkbox" name="type_of_request" value="animal">animal<br>
-    <input type="checkbox" name="type_of_request" value="chore">chore<br>
-    <input type="checkbox" name="type_of_request" value="other">other<br>
+    <input type="checkbox" name="type_of_request" value="food" onclick="this.form.submit()" {{"checked='true'" if 'food' in types}}>food<br>
+    <input type="checkbox" name="type_of_request" value="animal" onclick="this.form.submit()" {{"checked='true'" if 'animal' in types}}>animal<br>
+    <input type="checkbox" name="type_of_request" value="chore" onclick="this.form.submit()" {{"checked='true'" if 'chore' in types}}>chore<br>
+    <input type="checkbox" name="type_of_request" value="other" onclick="this.form.submit()" {{"checked='true'" if 'other' in types}}>other<br>
   <h4>Location</h4>
 </form>
 <h2> Find a wish! </h2> 
@@ -37,7 +37,7 @@
       <td>{{wish.location_dependent}}</td>
       <td>{{wish.location}}</td>
       <td>{{wish.status.capitalize()}}</td>
-      {% if wish.status != requested %}
+      {% if wish.status != 'requested' %}
         <td>{{wish.user_fulfiller_key}}</td>
       {% else %}
         <td></td>
