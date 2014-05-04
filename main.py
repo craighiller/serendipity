@@ -19,6 +19,7 @@ import jinja2
 import os
 import logging
 import texter
+import re
 
 from webapp2_extras import sessions
 
@@ -80,6 +81,11 @@ class MakeAWishHandler(BaseHandler):
         self.response.out.write(template.render(template_values))
 
     def post(self):
+        money = 0
+        if self.request.get("cache_money"):
+            money = float(re.sub('[,$ ]', '', self.request.get("cache_money")))
+
+        print money
         wish = Wish(
             tagline=self.request.get("tagline"), 
             details=self.request.get("details"), 
@@ -87,7 +93,7 @@ class MakeAWishHandler(BaseHandler):
             location=self.request.get("location"),
             status="requested",
             user_key=self.session['user_name'],
-            cache_money = self.request.get("cache_money")
+            cache_money=money
         )
         wish.put()
         self.redirect('/wish?key=' + str(wish.key()) + '&flash=You made a wish!')

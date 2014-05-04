@@ -8,16 +8,16 @@
   {% endif %}
   <h2> Wish by <a href="/user?id={{wish.user_key}}">{{wish.user_key}}</a></h2>
   <center><table>
-      {% for i in range(8) %}
+      {% for i in range(9) %}
         <tr>
-          {% if i == 7 %}
+          {% if i == 8 %}
             {% if wish.status != 'requested' %}
               <td> Fulfiller </td>
               <td class="field"> <a href="/user?id={{wish.user_fulfiller_key}}">{{wish.user_fulfiller_key}}</a></td>
             {% endif %}
           {% else %}
-            <td>{{['Type of Request', 'Tagline', 'Detail', 'Time of Request', 'Location', 'Status'][i]}}</td>
-            <td class="field">{{[wish.type_of_request, wish.tagline, wish.details, wish.time(), wish.location, wish.status.capitalize()][i]}}</td> 
+            <td>{{['Type of Request', 'Tagline', 'Donation Amount', 'Detail', 'Time of Request', 'Location', 'Status'][i]}}</td>
+            <td class="field">{{[wish.type_of_request, wish.tagline, wish.cache_money, wish.details, wish.time(), wish.location, wish.status.capitalize()][i]}}</td> 
           {% endif %}
         </tr>
       {% endfor %}
