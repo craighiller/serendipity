@@ -7,7 +7,7 @@
     <input type="radio" name="status" value="all" onclick="this.form.submit()" {{"checked='true'" if search == 'all'}}>All<br>
     <input type="radio" name="status" value="requested" onclick="this.form.submit()" {{"checked='true'" if search == 'requested'}}>Requested<br>
     <input type="radio" name="status" value="in progress" onclick="this.form.submit()" {{"checked='true'" if search == 'in progress'}}>In Progress<br>
-    <input type="radio" name="status" value="confirmed" onclick="this.form.submit()" {{"checked='true'" if search == 'confirmed'}}>Confirmed<br>
+    <input type="radio" name="status" value="fulfilled" onclick="this.form.submit()" {{"checked='true'" if search == 'fulfilled'}}>Fulfilled<br>
   <h4>Type</h4>
     {% for t in ["food", "animal", "chores", "material things", "other"] %}
       <input type="checkbox" name="type_of_request" value={{t}} onclick="this.form.submit()" {{"checked='true'" if t in types}}>{{t.capitalize()}}<br>
@@ -32,7 +32,7 @@
       <td>{{wish.type_of_request}}</td>
       <td>{{wish.tagline}}</td>
       <td>{{wish.details}}</td>
-      <td>{{wish.created}}</td>
+      <td>{{wish.created.strftime('%b %d, %Y %I:%M%p')}}</td>
       <td>{{wish.location}}</td>
       <td>{{wish.status.capitalize()}}</td>
       {% if wish.status != 'requested' %}
