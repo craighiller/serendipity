@@ -1,12 +1,10 @@
 {% extends "views/base.html" %}
 {% block body %}
-  <h2>Name: {{user.name}}</h2>
-  <h2>Phone: {{user.phone_number}}</h2>
+<h2> Current Wishes </h2>
+<h2> Past Wishes </h2>
 <table class="table table-striped">
   <tr>
-    <th>Requester</th>
-    <th>Name</th>
-    <th>Details</th> 
+    <th>Time of Request</th>
     <th>Type of Request</th>
     <th>Details</th> 
     <th>Location</th>
@@ -16,6 +14,7 @@
   </tr>
   {% for wish in wishes %}
     <tr>
+      <td>{{wish.time}}</td>
       <td>{{wish.type_of_request}}</td>
       <td>{{wish.details}}</td>
       <td>{{wish.location}}</td>
@@ -42,5 +41,4 @@
     </tr>
   {% endfor %}
 </table>
-<h2> Past Wishes </h2>
 {% endblock %}

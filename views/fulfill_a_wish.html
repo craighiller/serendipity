@@ -21,8 +21,7 @@
     <th>Requester</th>
     <th>Name</th>
     <th>Details</th> 
-    <th>Type of Request</th>
-    <th>Location Dependent?</th> 
+    <th>Type of Request</th> 
     <th>Location</th>
     <th>Status</th>
     <th>Fulfiller</th>
@@ -34,7 +33,6 @@
       <td>{{wish.name}}</td>
       <td>{{wish.details}}</td>
       <td>{{wish.type_of_request}}</td>
-      <td>{{wish.location_dependent}}</td>
       <td>{{wish.location}}</td>
       <td>{{wish.status.capitalize()}}</td>
       {% if wish.status != 'requested' %}

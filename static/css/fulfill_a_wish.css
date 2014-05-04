@@ -1,6 +1,12 @@
 #filter {
 	float: right;
 	width: 15%;
+	background-color: white;
+	padding-left: 2%;
+}
+
+#filter input {
+	margin: 5%;
 }
 
 .table {
