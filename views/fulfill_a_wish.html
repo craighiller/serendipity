@@ -35,14 +35,18 @@
       <td>{{wish.location_dependent}}</td>
       <td>{{wish.location}}</td>
       <td>{{wish.status.capitalize()}}</td>
-      <form method="post">
-        <input name="key" type="hidden" value="{{wish.key()}}" />
-        {% if wish.status == 'requested' %}
+      {% if wish.status == 'requested' %}
+        <form method="post">
+          <input name="key" type="hidden" value="{{wish.key()}}" />
           <td><button class='btn btn-success'>Fulfill This Wish</td>
-        {% elif wish.status == 'in progress' and wish.user_fulfiller_key == session['user_name'] %}
+        </form>
+      {% elif wish.status == 'in progress' and wish.user_fulfiller_key == session['user_name'] %}
+        <form method="post">
+          <input name="delete" type="hidden" value="yes" />
+          <input name="key" type="hidden" value="{{wish.key()}}" />
           <td><button name=cancel class='btn btn-danger'>Cancel this wish</td>
-        {% endif %}
-      </form>
+        </form>
+      {% endif %}
     </tr>
   {% endfor %}
 </table>

@@ -92,12 +92,19 @@ class WishIndexHandler(BaseHandler):
         self.response.out.write(template.render(template_values))
 
     def post(self):
-        wish = Wish.get(self.request.get("key"))
-        wish.status = 'in progress'
-        wish.user_fulfiller_key = self.session['user_name']
-        wish.put()
         template_values = {'session':self.session}
+        wish = Wish.get(self.request.get("key"))
+        if self.request.get('delete'):
+            wish.status = 'requested'
+            wish.user_fulfiller_key = None
+            template_values['flash'] = 'No longer fulfilling ' + wish.name
+        else:
+            wish.status = 'in progress'
+            wish.user_fulfiller_key = self.session['user_name']
+            template_values['flash'] = 'Fulfilling ' + wish.name
+        wish.put()
         template = jinja_environment.get_template("views/fulfill_a_wish_post.html")
+        print template_values
         self.response.out.write(template.render(template_values))
 
 class UserHandler(BaseHandler):
@@ -174,6 +181,8 @@ class SignupHandler(BaseHandler):
                     
 class LogoutHandler(BaseHandler):
     def get(self):
+        self.session['user_name'] = ""
+        self.session['num'] = ""
         self.session['authenticated'] = False
         self.redirect('/')
 
