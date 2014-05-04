@@ -62,7 +62,7 @@ class MainHandler(BaseHandler):
 class WishHandler(BaseHandler):
     def get(self):
         template_values = {'session':self.session}
-        wish = Wish.get(self.request.get("key"))
+        template_values['wish'] = Wish.get(self.request.get("key"))
         template = jinja_environment.get_template("views/wish.html")
         self.response.out.write(template.render(template_values))
 
