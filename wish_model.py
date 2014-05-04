@@ -12,7 +12,7 @@ class Wish(db.Model):
     status = db.StringProperty()  # can be 'requested', 'in progress', 'fulfilled'
     user_key = db.StringProperty()
     user_fulfiller_key = db.StringProperty()
-
+    cache_money = db.FloatProperty()
     def time(self):
         return self.created.strftime('%b %d, %Y')
 
