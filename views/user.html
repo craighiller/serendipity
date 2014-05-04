@@ -8,7 +8,6 @@
     <th>Name</th>
     <th>Details</th> 
     <th>Type of Request</th>
-    <th>Details</th> 
     <th>Location</th>
     <th>Status</th>
     <th>Fulfiller</th>
@@ -16,12 +15,14 @@
   </tr>
   {% for wish in wishes %}
     <tr>
-      <td>{{wish.type_of_request}}</td>
+      <td><a href="/user?id={{wish.user_key}}">{{wish.user_key}}</a></td>
+      <td>{{wish.name}}</td>
       <td>{{wish.details}}</td>
+      <td>{{wish.type_of_request}}</td>
       <td>{{wish.location}}</td>
       <td>{{wish.status.capitalize()}}</td>
-      {% if wish.status != requested %}
-        <td>{{wish.user_fulfiller_key}}</td>
+      {% if wish.status != 'requested' %}
+        <td><a href="/user?id={{wish.user_fulfiller_key}}">{{wish.user_fulfiller_key}}</a></td>
       {% else %}
         <td></td>
       {% endif %}

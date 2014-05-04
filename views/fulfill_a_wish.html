@@ -13,7 +13,6 @@
     <input type="checkbox" name="type_of_request" value="animal" onclick="this.form.submit()" {{"checked='true'" if 'animal' in types}}>animal<br>
     <input type="checkbox" name="type_of_request" value="chore" onclick="this.form.submit()" {{"checked='true'" if 'chore' in types}}>chore<br>
     <input type="checkbox" name="type_of_request" value="other" onclick="this.form.submit()" {{"checked='true'" if 'other' in types}}>other<br>
-  <h4>Location</h4>
 </form>
 <h2> Find a wish! </h2> 
 <table class="table table-striped">
@@ -22,7 +21,6 @@
     <th>Name</th>
     <th>Details</th> 
     <th>Type of Request</th>
-    <th>Location Dependent?</th> 
     <th>Location</th>
     <th>Status</th>
     <th>Fulfiller</th>
@@ -34,11 +32,10 @@
       <td>{{wish.name}}</td>
       <td>{{wish.details}}</td>
       <td>{{wish.type_of_request}}</td>
-      <td>{{wish.location_dependent}}</td>
       <td>{{wish.location}}</td>
       <td>{{wish.status.capitalize()}}</td>
       {% if wish.status != 'requested' %}
-        <td>{{wish.user_fulfiller_key}}</td>
+        <td><a href="/user?id={{wish.user_fulfiller_key}}">{{wish.user_fulfiller_key}}</a></td>
       {% else %}
         <td></td>
       {% endif %}
@@ -51,7 +48,7 @@
         <form method="post">
           <input name="delete" type="hidden" value="yes" />
           <input name="key" type="hidden" value="{{wish.key()}}" />
-          <td><button name=cancel class='btn btn-danger'>Cancel this wish</td>
+          <td><button name=cancel class='btn btn-danger'>Cancel This Wish</td>
         </form>
       {% else %}
         <td></td>
