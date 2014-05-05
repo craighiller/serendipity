@@ -15,3 +15,13 @@ h3 {
 	margin-right: 3%;
 }
 
+.done {
+	background-color:rgb(195, 255, 195);
+}
+
+.undone {
+	background-color: peachpuff;
+}
+
+
+

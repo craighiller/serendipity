@@ -6,16 +6,16 @@
     <div style="margin-top: 100px;">{{flash}}</div>
   </div>
 {% endif %}
-<h2 id="name"> {{session['user_name']}}'s Wishes </h2>
+<h2 id="name"> {{user.name}}'s Wishes </h2>
 {% for t in range(4) %}
   {% if t == 0 %}
-    <h3> Money donated by you: ${{user.money_donated}} </h3>
+    <h3> Money donated by {{user.name}}: ${{user.money_donated}} </h3>
   {% elif t == 2 %}
-    <h3> Money raised by you: ${{user.money_raised}}</h3>
+    <h3> Money raised by {{user.name}}: ${{user.money_raised}}</h3>
   {% endif %}
   <div class="wishes" id={{['unfulfilled', 'fulfilled', 'to_complete', 'completed'][t]}}>
-    <table class="table">
-      <caption> Wishes {{['Unfulfilled', 'Fulfilled', 'To Complete', 'Completed by You'][t]}} </caption>
+    <table class="table table-hover">
+      <caption> Wishes {{['Unfulfilled', 'Fulfilled', 'To Complete', 'Completed'][t]}} </caption>
       <tr>
         <th>Tagline</th>
         <th>Status</th>
@@ -23,12 +23,12 @@
       <div class="fulfilled">
       {% for wish in [unfulfilled, fulfilled, to_complete, completed][t] %}
         {% if t % 2 == 0 %}
-          <tr class="warning">
+          <tr class="undone">
             <td><a href="/wish?key={{wish.key()}}">{{wish.tagline}}</a></td>
             <td>{{wish.status.capitalize()}}</td>
           </tr>
         {% else %}
-          <tr class="success">
+          <tr class="done">
             <td><a href="/wish?key={{wish.key()}}">{{wish.tagline}}</a></td>
             <td>{{wish.status.capitalize()}}</td>
           </tr>
@@ -38,5 +38,6 @@
       </table>
   </div>
 {% endfor %}
+<center><b>Phone Number:</b> {{user.phone_number}}</center>
 
 {% endblock %}
