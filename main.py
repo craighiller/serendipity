@@ -76,7 +76,7 @@ class WishHandler(BaseHandler):
 
 class MakeAWishHandler(BaseHandler):
     def get(self):
-        if not self.session['authenticated']:
+        if 'authenticated' not in self.session.keys() or not self.session['authenticated']:
             return self.redirect('/login?redirect=true')
         template_values = {'session':self.session}
         template = jinja_environment.get_template("views/make_a_wish.html")
